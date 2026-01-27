@@ -3,6 +3,10 @@
 # THEME: Modern Quad-Dashboard (Integer Math Fix)
 # RESOLUTION: 720x720
 # =======================================================
+substitutions:
+  # Set rotation: "0", "90", "180", or "270"
+  display_rotation: "180"
+
 esphome:
   name: waveshare-p4-box
   friendly_name: WaveShare P4 Box
@@ -54,10 +58,13 @@ esp32_hosted:
   d3_pin: GPIO17
 
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
+  # Global WiFi Settings
   power_save_mode: NONE
   fast_connect: True
+  networks:
+    - ssid: "IoT"
+      password: "kkkkkkkk"
+
 
 # =======================================================
 # Display & Touch
@@ -65,7 +72,8 @@ wifi:
 display:
   - platform: mipi_dsi
     model: WAVESHARE-P4-86-PANEL
-    # dimensions: 720x720
+    id: my_display
+    rotation: ${display_rotation}
 
 i2c:
   sda: GPIO7
@@ -658,53 +666,30 @@ sensor:
           if (val_dec >= 10) { val_int++; val_dec = 0; }
           lv_label_set_text_fmt(id(lbl_ssd_temp_val), "SSD: %s%2d.%d°C", (x < 0 ? "-" : ""), val_int, val_dec);
 
-  # --- SYSTEM PAGE (Top Right) ---
   - platform: homeassistant
-    id: ha_fan_speed
-    entity_id: sensor.allskypi5_fan_speedp
+    id: ha_sqm
+    entity_id: sensor.sqm_reader_tsl2591_sqm
     on_value:
       - lambda: |-
-          float min = id(set_fan_min).state;
-          float max = id(set_fan_max).state;
-          if (max <= min) max = min + 1;
-          
-          float ratio = (x - min) / (max - min);
-          if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
-          
-          lv_bar_set_value(id(bar_fan), (int32_t)(ratio * 100), LV_ANIM_OFF);
-          
-          int r = (int)(id(g_fan_c1_r) + ratio * (id(g_fan_c2_r) - id(g_fan_c1_r)));
-          int g = (int)(id(g_fan_c1_g) + ratio * (id(g_fan_c2_g) - id(g_fan_c1_g)));
-          int b = (int)(id(g_fan_c1_b) + ratio * (id(g_fan_c2_b) - id(g_fan_c1_b)));
-          lv_obj_set_style_bg_color(id(bar_fan), lv_color_make(r, g, b), LV_PART_INDICATOR);
-          
-          // Fan RPM is integer. Added %4d padding.
-          lv_label_set_text_fmt(id(lbl_fan_val), "%4d", (int)x);
-
-  - platform: homeassistant
-    id: ha_cpu_use
-    entity_id: sensor.allskypi5_cpu_use
-    on_value:
-      - lambda: |-
+          // Manual formatting to bypass %f issues
+          // Calculate integer and 2 decimal places
           float abs_v = fabsf(x);
           int val_int = (int)abs_v;
-          int val_dec = (int)((abs_v - val_int) * 10.0 + 0.5);
-          if (val_dec >= 10) { val_int++; val_dec = 0; }
-          lv_label_set_text_fmt(id(lbl_cpu_use_val), "CPU: %2d.%d%%", val_int, val_dec);
-      - lvgl.bar.update:
-          id: bar_cpu_load
-          value: !lambda 'return (int)x;'
+          int val_dec = (int)((abs_v - val_int) * 100.0 + 0.5); // *100 for 2 decimals
+          
+          // Handle overflow (e.g., .995 -> 1.00)
+          if (val_dec >= 100) { val_int++; val_dec = 0; }
+          
+          // Use integer formatting (%d) which is always supported
+          lv_label_set_text_fmt(id(lbl_sqm_val), "%d.%02d", val_int, val_dec);
 
   - platform: homeassistant
-    id: ha_disk_usage
-    entity_id: sensor.allskypi5_disk_usage
+    id: ha_starcount
+    entity_id: sensor.allskypi5_as_starcount
     on_value:
       - lambda: |-
-          float abs_v = fabsf(x);
-          int val_int = (int)abs_v;
-          int val_dec = (int)((abs_v - val_int) * 10.0 + 0.5);
-          if (val_dec >= 10) { val_int++; val_dec = 0; }
-          lv_label_set_text_fmt(id(lbl_disk_use_val), "DISK: %2d.%d%%", val_int, val_dec);
+          // Display as integer
+          lv_label_set_text_fmt(id(lbl_star_count), "Stars: %d", (int)x);
 
   # --- ENVIRONMENT PAGE (Bottom Left) ---
   - platform: homeassistant
@@ -804,8 +789,15 @@ sensor:
           if (val_dec >= 10) { val_int++; val_dec = 0; }
           lv_label_set_text_fmt(id(lbl_current_val), "%2d.%dA", val_int, val_dec);
 
-# Binary sensors for status indicators
+# Binary/Text sensors for status indicators
 text_sensor:
+  - platform: homeassistant
+    id: ha_cloud_status
+    entity_id: sensor.allskypi5_cloud_detector_status
+    on_value:
+      - lambda: |-
+          lv_label_set_text(id(lbl_cloud_status), x.c_str());
+
   - platform: homeassistant
     id: ha_heater
     entity_id: sensor.allskypi5_as_dewcontrolheater
@@ -989,7 +981,7 @@ lvgl:
                         pad_top: 10
 
               # =================================================
-              # CARD 2: SYSTEM (Top Right)
+              # CARD 2: SKY INFO (Top Right)
               # =================================================
               - obj:
                   id: card_system
@@ -1016,7 +1008,7 @@ lvgl:
                           flex_align_cross: CENTER
                         widgets:
                           - label:
-                              text: "SYSTEM"
+                              text: "SQM"
                               styles: style_header
                           - obj:
                               id: ind_fan_dot
@@ -1026,7 +1018,7 @@ lvgl:
                               bg_color: 0x444444
                               scrollbar_mode: "OFF"
                     
-                    # Main Value
+                    # Main Value (SQM)
                     - obj:
                         width: 100%
                         height: 110
@@ -1040,29 +1032,25 @@ lvgl:
                           flex_align_cross: CENTER
                         widgets:
                           - label:
-                              id: lbl_fan_val
+                              id: lbl_sqm_val
                               text: "--"
                               styles: style_value_hero
                           - label:
-                              text: "FAN RPM"
+                              text: "SQM"
                               styles: style_unit_small
                     
-                    # Bar (Fan)
-                    - bar:
-                        id: bar_fan
-                        width: 100%
-                        height: 12
-                        min_value: 0
-                        max_value: 100
-                        mode: NORMAL
-                        styles: style_bar_bg
-                        indicator:
-                          styles: style_bar_blue
+                    # # DIVIDER
+                    # - obj:
+                    #     width: 100%
+                    #     height: 2
+                    #     bg_color: 0x444444
+                    #     bg_opa: COVER
+                    #     border_width: 0
 
-                    # Footer Rows (CPU/DISK Bars small)
+                    # Footer Rows (Cloud Status / Star Count)
                     - obj:
                         width: 100%
-                        height: 60
+                        height: 100
                         bg_opa: TRANSP
                         border_width: 0
                         scrollbar_mode: "OFF"
@@ -1071,37 +1059,19 @@ lvgl:
                           flex_flow: COLUMN
                           flex_align_main: SPACE_EVENLY
                         widgets:
-                          # CPU Row
-                          - obj:
-                              width: 100%
-                              height: 20
-                              bg_opa: TRANSP
-                              border_width: 0
-                              scrollbar_mode: "OFF"
-                              layout:
-                                type: flex
-                                flex_flow: ROW
-                                flex_align_main: SPACE_BETWEEN
-                                flex_align_cross: CENTER
-                              widgets:
-                                - label:
-                                    id: lbl_cpu_use_val
-                                    text: "CPU: --%"
-                                    styles: style_unit_small
-                                - bar:
-                                    id: bar_cpu_load
-                                    width: 100
-                                    height: 8
-                                    min_value: 0
-                                    max_value: 100
-                                    styles: style_bar_bg
-                                    indicator:
-                                      styles: style_bar_blue
-                          
-                          # Disk Row
+                          # Cloud Status (Using Header Font for slightly compressed width)
                           - label:
-                              id: lbl_disk_use_val
-                              text: "DISK: --%"
+                              id: lbl_cloud_status
+                              text: "--"
+                              text_font: font_header_40
+                              text_color: 0xFFFFFF
+                              text_align: CENTER
+                              align: CENTER
+                          
+                          # Star Count
+                          - label:
+                              id: lbl_star_count
+                              text: "Stars: --"
                               styles: style_unit_small
 
 
