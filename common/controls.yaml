@@ -94,6 +94,262 @@ number:
     step: 0.1
     restore_value: true
 
+  # NINA2 Min/Max Values
+  - platform: template
+    name: "Set NINA2 RMS Min Value"
+    id: set_nina2_rms_min
+    optimistic: true
+    min_value: 0
+    max_value: 10
+    initial_value: 0
+    step: 0.1
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 RMS Max Value"
+    id: set_nina2_rms_max
+    optimistic: true
+    min_value: 0
+    max_value: 10
+    initial_value: 3
+    step: 0.1
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 HFR Min Value"
+    id: set_nina2_hfr_min
+    optimistic: true
+    min_value: 0
+    max_value: 10
+    initial_value: 0
+    step: 0.1
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 HFR Max Value"
+    id: set_nina2_hfr_max
+    optimistic: true
+    min_value: 0
+    max_value: 10
+    initial_value: 5
+    step: 0.1
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 EXP NUM Min Value"
+    id: set_nina2_exp_num_min
+    optimistic: true
+    min_value: 0
+    max_value: 1000
+    initial_value: 0
+    step: 1
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 EXP NUM Max Value"
+    id: set_nina2_exp_num_max
+    optimistic: true
+    min_value: 0
+    max_value: 1000
+    initial_value: 100
+    step: 1
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 EXP TIME Min Value"
+    id: set_nina2_exp_time_min
+    optimistic: true
+    min_value: 0
+    max_value: 600
+    initial_value: 0
+    step: 1
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 EXP TIME Max Value"
+    id: set_nina2_exp_time_max
+    optimistic: true
+    min_value: 0
+    max_value: 600
+    initial_value: 300
+    step: 1
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 CAM TEMP Min Value"
+    id: set_nina2_cam_temp_min
+    optimistic: true
+    min_value: -40
+    max_value: 50
+    initial_value: -20
+    step: 1
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 CAM TEMP Max Value"
+    id: set_nina2_cam_temp_max
+    optimistic: true
+    min_value: -40
+    max_value: 50
+    initial_value: 10
+    step: 1
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 STARS Min Value"
+    id: set_nina2_stars_min
+    optimistic: true
+    min_value: 0
+    max_value: 10000
+    initial_value: 0
+    step: 10
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 STARS Max Value"
+    id: set_nina2_stars_max
+    optimistic: true
+    min_value: 0
+    max_value: 10000
+    initial_value: 5000
+    step: 10
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 SAT PX Min Value"
+    id: set_nina2_sat_px_min
+    optimistic: true
+    min_value: 0
+    max_value: 100000
+    initial_value: 0
+    step: 100
+    restore_value: true
+  - platform: template
+    name: "Set NINA2 SAT PX Max Value"
+    id: set_nina2_sat_px_max
+    optimistic: true
+    min_value: 0
+    max_value: 100000
+    initial_value: 10000
+    step: 100
+    restore_value: true
+
+  # NINA3 Min/Max Values
+  - platform: template
+    name: "Set NINA3 RMS Min Value"
+    id: set_nina3_rms_min
+    optimistic: true
+    min_value: 0
+    max_value: 10
+    initial_value: 0
+    step: 0.1
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 RMS Max Value"
+    id: set_nina3_rms_max
+    optimistic: true
+    min_value: 0
+    max_value: 10
+    initial_value: 3
+    step: 0.1
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 HFR Min Value"
+    id: set_nina3_hfr_min
+    optimistic: true
+    min_value: 0
+    max_value: 10
+    initial_value: 0
+    step: 0.1
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 HFR Max Value"
+    id: set_nina3_hfr_max
+    optimistic: true
+    min_value: 0
+    max_value: 10
+    initial_value: 5
+    step: 0.1
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 EXP NUM Min Value"
+    id: set_nina3_exp_num_min
+    optimistic: true
+    min_value: 0
+    max_value: 1000
+    initial_value: 0
+    step: 1
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 EXP NUM Max Value"
+    id: set_nina3_exp_num_max
+    optimistic: true
+    min_value: 0
+    max_value: 1000
+    initial_value: 100
+    step: 1
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 EXP TIME Min Value"
+    id: set_nina3_exp_time_min
+    optimistic: true
+    min_value: 0
+    max_value: 600
+    initial_value: 0
+    step: 1
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 EXP TIME Max Value"
+    id: set_nina3_exp_time_max
+    optimistic: true
+    min_value: 0
+    max_value: 600
+    initial_value: 300
+    step: 1
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 CAM TEMP Min Value"
+    id: set_nina3_cam_temp_min
+    optimistic: true
+    min_value: -40
+    max_value: 50
+    initial_value: -20
+    step: 1
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 CAM TEMP Max Value"
+    id: set_nina3_cam_temp_max
+    optimistic: true
+    min_value: -40
+    max_value: 50
+    initial_value: 10
+    step: 1
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 STARS Min Value"
+    id: set_nina3_stars_min
+    optimistic: true
+    min_value: 0
+    max_value: 10000
+    initial_value: 0
+    step: 10
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 STARS Max Value"
+    id: set_nina3_stars_max
+    optimistic: true
+    min_value: 0
+    max_value: 10000
+    initial_value: 5000
+    step: 10
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 SAT PX Min Value"
+    id: set_nina3_sat_px_min
+    optimistic: true
+    min_value: 0
+    max_value: 100000
+    initial_value: 0
+    step: 100
+    restore_value: true
+  - platform: template
+    name: "Set NINA3 SAT PX Max Value"
+    id: set_nina3_sat_px_max
+    optimistic: true
+    min_value: 0
+    max_value: 100000
+    initial_value: 10000
+    step: 100
+    restore_value: true
+
 switch:
   - platform: template
     name: "Match Text Color"
@@ -150,6 +406,176 @@ switch:
              int b = (int)(id(g_pwr_c1_b) + ratio * (id(g_pwr_c2_b) - id(g_pwr_c1_b)));
              lv_obj_set_style_text_color(id(lbl_power_val), lv_color_make(r, g, b), LV_PART_MAIN);
           }
+          // NINA2 Color Updates
+          if (!isnan(id(nina2_total_rms).state)) {
+             float x = id(nina2_total_rms).state;
+             float min = id(set_nina2_rms_min).state;
+             float max = id(set_nina2_rms_max).state;
+             if (max <= min) max = min + 0.1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina2_rms_c1_r) + ratio * (id(g_nina2_rms_c2_r) - id(g_nina2_rms_c1_r)));
+             int g = (int)(id(g_nina2_rms_c1_g) + ratio * (id(g_nina2_rms_c2_g) - id(g_nina2_rms_c1_g)));
+             int b = (int)(id(g_nina2_rms_c1_b) + ratio * (id(g_nina2_rms_c2_b) - id(g_nina2_rms_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina2_rms), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          if (!isnan(id(nina2_hfr).state)) {
+             float x = id(nina2_hfr).state;
+             float min = id(set_nina2_hfr_min).state;
+             float max = id(set_nina2_hfr_max).state;
+             if (max <= min) max = min + 0.1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina2_hfr_c1_r) + ratio * (id(g_nina2_hfr_c2_r) - id(g_nina2_hfr_c1_r)));
+             int g = (int)(id(g_nina2_hfr_c1_g) + ratio * (id(g_nina2_hfr_c2_g) - id(g_nina2_hfr_c1_g)));
+             int b = (int)(id(g_nina2_hfr_c1_b) + ratio * (id(g_nina2_hfr_c2_b) - id(g_nina2_hfr_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina2_hfr), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          if (!isnan(id(nina2_exposure_num).state)) {
+             float x = id(nina2_exposure_num).state;
+             float min = id(set_nina2_exp_num_min).state;
+             float max = id(set_nina2_exp_num_max).state;
+             if (max <= min) max = min + 1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina2_exp_num_c1_r) + ratio * (id(g_nina2_exp_num_c2_r) - id(g_nina2_exp_num_c1_r)));
+             int g = (int)(id(g_nina2_exp_num_c1_g) + ratio * (id(g_nina2_exp_num_c2_g) - id(g_nina2_exp_num_c1_g)));
+             int b = (int)(id(g_nina2_exp_num_c1_b) + ratio * (id(g_nina2_exp_num_c2_b) - id(g_nina2_exp_num_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina2_exp_num), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          if (!isnan(id(nina2_exposure_time).state)) {
+             float x = id(nina2_exposure_time).state;
+             float min = id(set_nina2_exp_time_min).state;
+             float max = id(set_nina2_exp_time_max).state;
+             if (max <= min) max = min + 1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina2_exp_time_c1_r) + ratio * (id(g_nina2_exp_time_c2_r) - id(g_nina2_exp_time_c1_r)));
+             int g = (int)(id(g_nina2_exp_time_c1_g) + ratio * (id(g_nina2_exp_time_c2_g) - id(g_nina2_exp_time_c1_g)));
+             int b = (int)(id(g_nina2_exp_time_c1_b) + ratio * (id(g_nina2_exp_time_c2_b) - id(g_nina2_exp_time_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina2_exp_time), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          if (!isnan(id(nina2_camera_temp).state)) {
+             float x = id(nina2_camera_temp).state;
+             float min = id(set_nina2_cam_temp_min).state;
+             float max = id(set_nina2_cam_temp_max).state;
+             if (max <= min) max = min + 1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina2_cam_temp_c1_r) + ratio * (id(g_nina2_cam_temp_c2_r) - id(g_nina2_cam_temp_c1_r)));
+             int g = (int)(id(g_nina2_cam_temp_c1_g) + ratio * (id(g_nina2_cam_temp_c2_g) - id(g_nina2_cam_temp_c1_g)));
+             int b = (int)(id(g_nina2_cam_temp_c1_b) + ratio * (id(g_nina2_cam_temp_c2_b) - id(g_nina2_cam_temp_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina2_cam_temp), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          if (!isnan(id(nina2_detected_stars).state)) {
+             float x = id(nina2_detected_stars).state;
+             float min = id(set_nina2_stars_min).state;
+             float max = id(set_nina2_stars_max).state;
+             if (max <= min) max = min + 1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina2_stars_c1_r) + ratio * (id(g_nina2_stars_c2_r) - id(g_nina2_stars_c1_r)));
+             int g = (int)(id(g_nina2_stars_c1_g) + ratio * (id(g_nina2_stars_c2_g) - id(g_nina2_stars_c1_g)));
+             int b = (int)(id(g_nina2_stars_c1_b) + ratio * (id(g_nina2_stars_c2_b) - id(g_nina2_stars_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina2_stars), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          if (!isnan(id(nina2_saturated_pixels).state)) {
+             float x = id(nina2_saturated_pixels).state;
+             float min = id(set_nina2_sat_px_min).state;
+             float max = id(set_nina2_sat_px_max).state;
+             if (max <= min) max = min + 1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina2_sat_px_c1_r) + ratio * (id(g_nina2_sat_px_c2_r) - id(g_nina2_sat_px_c1_r)));
+             int g = (int)(id(g_nina2_sat_px_c1_g) + ratio * (id(g_nina2_sat_px_c2_g) - id(g_nina2_sat_px_c1_g)));
+             int b = (int)(id(g_nina2_sat_px_c1_b) + ratio * (id(g_nina2_sat_px_c2_b) - id(g_nina2_sat_px_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina2_sat_px), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          // NINA3 Color Updates
+          if (!isnan(id(nina3_total_rms).state)) {
+             float x = id(nina3_total_rms).state;
+             float min = id(set_nina3_rms_min).state;
+             float max = id(set_nina3_rms_max).state;
+             if (max <= min) max = min + 0.1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina3_rms_c1_r) + ratio * (id(g_nina3_rms_c2_r) - id(g_nina3_rms_c1_r)));
+             int g = (int)(id(g_nina3_rms_c1_g) + ratio * (id(g_nina3_rms_c2_g) - id(g_nina3_rms_c1_g)));
+             int b = (int)(id(g_nina3_rms_c1_b) + ratio * (id(g_nina3_rms_c2_b) - id(g_nina3_rms_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina3_rms), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          if (!isnan(id(nina3_hfr).state)) {
+             float x = id(nina3_hfr).state;
+             float min = id(set_nina3_hfr_min).state;
+             float max = id(set_nina3_hfr_max).state;
+             if (max <= min) max = min + 0.1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina3_hfr_c1_r) + ratio * (id(g_nina3_hfr_c2_r) - id(g_nina3_hfr_c1_r)));
+             int g = (int)(id(g_nina3_hfr_c1_g) + ratio * (id(g_nina3_hfr_c2_g) - id(g_nina3_hfr_c1_g)));
+             int b = (int)(id(g_nina3_hfr_c1_b) + ratio * (id(g_nina3_hfr_c2_b) - id(g_nina3_hfr_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina3_hfr), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          if (!isnan(id(nina3_exposure_num).state)) {
+             float x = id(nina3_exposure_num).state;
+             float min = id(set_nina3_exp_num_min).state;
+             float max = id(set_nina3_exp_num_max).state;
+             if (max <= min) max = min + 1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina3_exp_num_c1_r) + ratio * (id(g_nina3_exp_num_c2_r) - id(g_nina3_exp_num_c1_r)));
+             int g = (int)(id(g_nina3_exp_num_c1_g) + ratio * (id(g_nina3_exp_num_c2_g) - id(g_nina3_exp_num_c1_g)));
+             int b = (int)(id(g_nina3_exp_num_c1_b) + ratio * (id(g_nina3_exp_num_c2_b) - id(g_nina3_exp_num_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina3_exp_num), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          if (!isnan(id(nina3_exposure_time).state)) {
+             float x = id(nina3_exposure_time).state;
+             float min = id(set_nina3_exp_time_min).state;
+             float max = id(set_nina3_exp_time_max).state;
+             if (max <= min) max = min + 1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina3_exp_time_c1_r) + ratio * (id(g_nina3_exp_time_c2_r) - id(g_nina3_exp_time_c1_r)));
+             int g = (int)(id(g_nina3_exp_time_c1_g) + ratio * (id(g_nina3_exp_time_c2_g) - id(g_nina3_exp_time_c1_g)));
+             int b = (int)(id(g_nina3_exp_time_c1_b) + ratio * (id(g_nina3_exp_time_c2_b) - id(g_nina3_exp_time_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina3_exp_time), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          if (!isnan(id(nina3_camera_temp).state)) {
+             float x = id(nina3_camera_temp).state;
+             float min = id(set_nina3_cam_temp_min).state;
+             float max = id(set_nina3_cam_temp_max).state;
+             if (max <= min) max = min + 1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina3_cam_temp_c1_r) + ratio * (id(g_nina3_cam_temp_c2_r) - id(g_nina3_cam_temp_c1_r)));
+             int g = (int)(id(g_nina3_cam_temp_c1_g) + ratio * (id(g_nina3_cam_temp_c2_g) - id(g_nina3_cam_temp_c1_g)));
+             int b = (int)(id(g_nina3_cam_temp_c1_b) + ratio * (id(g_nina3_cam_temp_c2_b) - id(g_nina3_cam_temp_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina3_cam_temp), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          if (!isnan(id(nina3_detected_stars).state)) {
+             float x = id(nina3_detected_stars).state;
+             float min = id(set_nina3_stars_min).state;
+             float max = id(set_nina3_stars_max).state;
+             if (max <= min) max = min + 1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina3_stars_c1_r) + ratio * (id(g_nina3_stars_c2_r) - id(g_nina3_stars_c1_r)));
+             int g = (int)(id(g_nina3_stars_c1_g) + ratio * (id(g_nina3_stars_c2_g) - id(g_nina3_stars_c1_g)));
+             int b = (int)(id(g_nina3_stars_c1_b) + ratio * (id(g_nina3_stars_c2_b) - id(g_nina3_stars_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina3_stars), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
+          if (!isnan(id(nina3_saturated_pixels).state)) {
+             float x = id(nina3_saturated_pixels).state;
+             float min = id(set_nina3_sat_px_min).state;
+             float max = id(set_nina3_sat_px_max).state;
+             if (max <= min) max = min + 1;
+             float ratio = (x - min) / (max - min);
+             if (ratio < 0.0) ratio = 0.0; else if (ratio > 1.0) ratio = 1.0;
+             int r = (int)(id(g_nina3_sat_px_c1_r) + ratio * (id(g_nina3_sat_px_c2_r) - id(g_nina3_sat_px_c1_r)));
+             int g = (int)(id(g_nina3_sat_px_c1_g) + ratio * (id(g_nina3_sat_px_c2_g) - id(g_nina3_sat_px_c1_g)));
+             int b = (int)(id(g_nina3_sat_px_c1_b) + ratio * (id(g_nina3_sat_px_c2_b) - id(g_nina3_sat_px_c1_b)));
+             lv_obj_set_style_text_color(id(lbl_nina3_sat_px), lv_color_make(r, g, b), LV_PART_MAIN);
+          }
     on_turn_off:
       - lambda: |-
           lv_color_t white = lv_color_hex(0xFFFFFF);
@@ -157,6 +583,22 @@ switch:
           lv_obj_set_style_text_color(id(lbl_sqm_val), white, LV_PART_MAIN);
           lv_obj_set_style_text_color(id(lbl_enclosure_temp_val), white, LV_PART_MAIN);
           lv_obj_set_style_text_color(id(lbl_power_val), white, LV_PART_MAIN);
+          // NINA2 reset to white
+          lv_obj_set_style_text_color(id(lbl_nina2_rms), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_nina2_hfr), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_nina2_exp_num), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_nina2_exp_time), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_nina2_cam_temp), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_nina2_stars), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_nina2_sat_px), white, LV_PART_MAIN);
+          // NINA3 reset to white
+          lv_obj_set_style_text_color(id(lbl_nina3_rms), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_nina3_hfr), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_nina3_exp_num), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_nina3_exp_time), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_nina3_cam_temp), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_nina3_stars), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_nina3_sat_px), white, LV_PART_MAIN);
 
 select:
   - platform: template
@@ -223,6 +665,12 @@ select:
           if (id(main_container) != nullptr) {
               lv_obj_set_style_bg_color(id(main_container), bg_c, LV_PART_MAIN);
           }
+          if (id(nina2_container) != nullptr) {
+              lv_obj_set_style_bg_color(id(nina2_container), bg_c, LV_PART_MAIN);
+          }
+          if (id(nina3_container) != nullptr) {
+              lv_obj_set_style_bg_color(id(nina3_container), bg_c, LV_PART_MAIN);
+          }
 
           auto apply_theme = [](lv_obj_t *obj, lv_color_t bg, lv_color_t border) {
               if (obj != nullptr) {
@@ -230,10 +678,36 @@ select:
                   lv_obj_set_style_border_color(obj, border, LV_PART_MAIN);
               }
           };
+          
+          // Main page cards
           apply_theme(id(card_thermal), card_c, border_c);
           apply_theme(id(card_system), card_c, border_c);
           apply_theme(id(card_ambient), card_c, border_c);
           apply_theme(id(card_power), card_c, border_c);
+          
+          // NINA2 page cards
+          apply_theme(id(nina2_card_target), card_c, border_c);
+          apply_theme(id(nina2_card_rms), card_c, border_c);
+          apply_theme(id(nina2_card_hfr), card_c, border_c);
+          apply_theme(id(nina2_card_exp_num), card_c, border_c);
+          apply_theme(id(nina2_card_exp_time), card_c, border_c);
+          apply_theme(id(nina2_card_filter), card_c, border_c);
+          apply_theme(id(nina2_card_sat_px), card_c, border_c);
+          apply_theme(id(nina2_card_cam_temp), card_c, border_c);
+          apply_theme(id(nina2_card_stars), card_c, border_c);
+          apply_theme(id(nina2_card_ra_dec), card_c, border_c);
+          
+          // NINA3 page cards
+          apply_theme(id(nina3_card_target), card_c, border_c);
+          apply_theme(id(nina3_card_rms), card_c, border_c);
+          apply_theme(id(nina3_card_hfr), card_c, border_c);
+          apply_theme(id(nina3_card_exp_num), card_c, border_c);
+          apply_theme(id(nina3_card_exp_time), card_c, border_c);
+          apply_theme(id(nina3_card_filter), card_c, border_c);
+          apply_theme(id(nina3_card_sat_px), card_c, border_c);
+          apply_theme(id(nina3_card_cam_temp), card_c, border_c);
+          apply_theme(id(nina3_card_stars), card_c, border_c);
+          apply_theme(id(nina3_card_ra_dec), card_c, border_c);
 
   - platform: template
     name: "Page Selection"
@@ -435,6 +909,428 @@ light:
           red: 100%    # 255/255
           green: 100%  # 255/255
           blue: 100%   # 255/255
+
+  # NINA2 Color Lights
+  - name: "NINA2 RMS Start Color"
+    platform: rgb
+    id: nina2_rms_start_color
+    red: nina2_rms_start_red
+    green: nina2_rms_start_green
+    blue: nina2_rms_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_rms_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA2 RMS End Color"
+    platform: rgb
+    id: nina2_rms_end_color
+    red: nina2_rms_end_red
+    green: nina2_rms_end_green
+    blue: nina2_rms_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_rms_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  - name: "NINA2 HFR Start Color"
+    platform: rgb
+    id: nina2_hfr_start_color
+    red: nina2_hfr_start_red
+    green: nina2_hfr_start_green
+    blue: nina2_hfr_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_hfr_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA2 HFR End Color"
+    platform: rgb
+    id: nina2_hfr_end_color
+    red: nina2_hfr_end_red
+    green: nina2_hfr_end_green
+    blue: nina2_hfr_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_hfr_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  - name: "NINA2 EXP NUM Start Color"
+    platform: rgb
+    id: nina2_exp_num_start_color
+    red: nina2_exp_num_start_red
+    green: nina2_exp_num_start_green
+    blue: nina2_exp_num_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_exp_num_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA2 EXP NUM End Color"
+    platform: rgb
+    id: nina2_exp_num_end_color
+    red: nina2_exp_num_end_red
+    green: nina2_exp_num_end_green
+    blue: nina2_exp_num_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_exp_num_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  - name: "NINA2 EXP TIME Start Color"
+    platform: rgb
+    id: nina2_exp_time_start_color
+    red: nina2_exp_time_start_red
+    green: nina2_exp_time_start_green
+    blue: nina2_exp_time_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_exp_time_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA2 EXP TIME End Color"
+    platform: rgb
+    id: nina2_exp_time_end_color
+    red: nina2_exp_time_end_red
+    green: nina2_exp_time_end_green
+    blue: nina2_exp_time_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_exp_time_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  - name: "NINA2 CAM TEMP Start Color"
+    platform: rgb
+    id: nina2_cam_temp_start_color
+    red: nina2_cam_temp_start_red
+    green: nina2_cam_temp_start_green
+    blue: nina2_cam_temp_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_cam_temp_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA2 CAM TEMP End Color"
+    platform: rgb
+    id: nina2_cam_temp_end_color
+    red: nina2_cam_temp_end_red
+    green: nina2_cam_temp_end_green
+    blue: nina2_cam_temp_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_cam_temp_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  - name: "NINA2 STARS Start Color"
+    platform: rgb
+    id: nina2_stars_start_color
+    red: nina2_stars_start_red
+    green: nina2_stars_start_green
+    blue: nina2_stars_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_stars_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA2 STARS End Color"
+    platform: rgb
+    id: nina2_stars_end_color
+    red: nina2_stars_end_red
+    green: nina2_stars_end_green
+    blue: nina2_stars_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_stars_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  - name: "NINA2 SAT PX Start Color"
+    platform: rgb
+    id: nina2_sat_px_start_color
+    red: nina2_sat_px_start_red
+    green: nina2_sat_px_start_green
+    blue: nina2_sat_px_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_sat_px_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA2 SAT PX End Color"
+    platform: rgb
+    id: nina2_sat_px_end_color
+    red: nina2_sat_px_end_red
+    green: nina2_sat_px_end_green
+    blue: nina2_sat_px_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina2_sat_px_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  # NINA3 Color Lights
+  - name: "NINA3 RMS Start Color"
+    platform: rgb
+    id: nina3_rms_start_color
+    red: nina3_rms_start_red
+    green: nina3_rms_start_green
+    blue: nina3_rms_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_rms_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA3 RMS End Color"
+    platform: rgb
+    id: nina3_rms_end_color
+    red: nina3_rms_end_red
+    green: nina3_rms_end_green
+    blue: nina3_rms_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_rms_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  - name: "NINA3 HFR Start Color"
+    platform: rgb
+    id: nina3_hfr_start_color
+    red: nina3_hfr_start_red
+    green: nina3_hfr_start_green
+    blue: nina3_hfr_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_hfr_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA3 HFR End Color"
+    platform: rgb
+    id: nina3_hfr_end_color
+    red: nina3_hfr_end_red
+    green: nina3_hfr_end_green
+    blue: nina3_hfr_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_hfr_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  - name: "NINA3 EXP NUM Start Color"
+    platform: rgb
+    id: nina3_exp_num_start_color
+    red: nina3_exp_num_start_red
+    green: nina3_exp_num_start_green
+    blue: nina3_exp_num_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_exp_num_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA3 EXP NUM End Color"
+    platform: rgb
+    id: nina3_exp_num_end_color
+    red: nina3_exp_num_end_red
+    green: nina3_exp_num_end_green
+    blue: nina3_exp_num_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_exp_num_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  - name: "NINA3 EXP TIME Start Color"
+    platform: rgb
+    id: nina3_exp_time_start_color
+    red: nina3_exp_time_start_red
+    green: nina3_exp_time_start_green
+    blue: nina3_exp_time_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_exp_time_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA3 EXP TIME End Color"
+    platform: rgb
+    id: nina3_exp_time_end_color
+    red: nina3_exp_time_end_red
+    green: nina3_exp_time_end_green
+    blue: nina3_exp_time_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_exp_time_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  - name: "NINA3 CAM TEMP Start Color"
+    platform: rgb
+    id: nina3_cam_temp_start_color
+    red: nina3_cam_temp_start_red
+    green: nina3_cam_temp_start_green
+    blue: nina3_cam_temp_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_cam_temp_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA3 CAM TEMP End Color"
+    platform: rgb
+    id: nina3_cam_temp_end_color
+    red: nina3_cam_temp_end_red
+    green: nina3_cam_temp_end_green
+    blue: nina3_cam_temp_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_cam_temp_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  - name: "NINA3 STARS Start Color"
+    platform: rgb
+    id: nina3_stars_start_color
+    red: nina3_stars_start_red
+    green: nina3_stars_start_green
+    blue: nina3_stars_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_stars_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA3 STARS End Color"
+    platform: rgb
+    id: nina3_stars_end_color
+    red: nina3_stars_end_red
+    green: nina3_stars_end_green
+    blue: nina3_stars_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_stars_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
+
+  - name: "NINA3 SAT PX Start Color"
+    platform: rgb
+    id: nina3_sat_px_start_color
+    red: nina3_sat_px_start_red
+    green: nina3_sat_px_start_green
+    blue: nina3_sat_px_start_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_sat_px_start_color
+          red: 49.8%    # 127/255
+          green: 67.5%  # 172/255
+          blue: 100%    # 255/255
+
+  - name: "NINA3 SAT PX End Color"
+    platform: rgb
+    id: nina3_sat_px_end_color
+    red: nina3_sat_px_end_red
+    green: nina3_sat_px_end_green
+    blue: nina3_sat_px_end_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0s
+    on_turn_on:
+      - light.control:
+          id: nina3_sat_px_end_color
+          red: 100%    # 255/255
+          green: 53.7% # 137/255
+          blue: 5.5%   # 14/255
 
 output:
   - platform: template
@@ -648,3 +1544,438 @@ output:
       - lambda: |-
           id(g_cloud_b) = state * 255.0;
           lv_obj_set_style_text_color(id(lbl_cloud_status), lv_color_make(id(g_cloud_r), id(g_cloud_g), id(g_cloud_b)), LV_PART_MAIN);
+  # NINA2 Color Outputs
+  - platform: template
+    type: float
+    id: nina2_rms_start_red
+    write_action:
+      - lambda: id(g_nina2_rms_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_rms_start_green
+    write_action:
+      - lambda: id(g_nina2_rms_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_rms_start_blue
+    write_action:
+      - lambda: id(g_nina2_rms_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_rms_end_red
+    write_action:
+      - lambda: id(g_nina2_rms_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_rms_end_green
+    write_action:
+      - lambda: id(g_nina2_rms_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_rms_end_blue
+    write_action:
+      - lambda: id(g_nina2_rms_c2_b) = state * 255.0;
+
+  - platform: template
+    type: float
+    id: nina2_hfr_start_red
+    write_action:
+      - lambda: id(g_nina2_hfr_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_hfr_start_green
+    write_action:
+      - lambda: id(g_nina2_hfr_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_hfr_start_blue
+    write_action:
+      - lambda: id(g_nina2_hfr_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_hfr_end_red
+    write_action:
+      - lambda: id(g_nina2_hfr_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_hfr_end_green
+    write_action:
+      - lambda: id(g_nina2_hfr_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_hfr_end_blue
+    write_action:
+      - lambda: id(g_nina2_hfr_c2_b) = state * 255.0;
+
+  - platform: template
+    type: float
+    id: nina2_exp_num_start_red
+    write_action:
+      - lambda: id(g_nina2_exp_num_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_exp_num_start_green
+    write_action:
+      - lambda: id(g_nina2_exp_num_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_exp_num_start_blue
+    write_action:
+      - lambda: id(g_nina2_exp_num_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_exp_num_end_red
+    write_action:
+      - lambda: id(g_nina2_exp_num_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_exp_num_end_green
+    write_action:
+      - lambda: id(g_nina2_exp_num_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_exp_num_end_blue
+    write_action:
+      - lambda: id(g_nina2_exp_num_c2_b) = state * 255.0;
+
+  - platform: template
+    type: float
+    id: nina2_exp_time_start_red
+    write_action:
+      - lambda: id(g_nina2_exp_time_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_exp_time_start_green
+    write_action:
+      - lambda: id(g_nina2_exp_time_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_exp_time_start_blue
+    write_action:
+      - lambda: id(g_nina2_exp_time_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_exp_time_end_red
+    write_action:
+      - lambda: id(g_nina2_exp_time_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_exp_time_end_green
+    write_action:
+      - lambda: id(g_nina2_exp_time_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_exp_time_end_blue
+    write_action:
+      - lambda: id(g_nina2_exp_time_c2_b) = state * 255.0;
+
+  - platform: template
+    type: float
+    id: nina2_cam_temp_start_red
+    write_action:
+      - lambda: id(g_nina2_cam_temp_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_cam_temp_start_green
+    write_action:
+      - lambda: id(g_nina2_cam_temp_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_cam_temp_start_blue
+    write_action:
+      - lambda: id(g_nina2_cam_temp_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_cam_temp_end_red
+    write_action:
+      - lambda: id(g_nina2_cam_temp_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_cam_temp_end_green
+    write_action:
+      - lambda: id(g_nina2_cam_temp_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_cam_temp_end_blue
+    write_action:
+      - lambda: id(g_nina2_cam_temp_c2_b) = state * 255.0;
+
+  - platform: template
+    type: float
+    id: nina2_stars_start_red
+    write_action:
+      - lambda: id(g_nina2_stars_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_stars_start_green
+    write_action:
+      - lambda: id(g_nina2_stars_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_stars_start_blue
+    write_action:
+      - lambda: id(g_nina2_stars_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_stars_end_red
+    write_action:
+      - lambda: id(g_nina2_stars_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_stars_end_green
+    write_action:
+      - lambda: id(g_nina2_stars_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_stars_end_blue
+    write_action:
+      - lambda: id(g_nina2_stars_c2_b) = state * 255.0;
+
+  - platform: template
+    type: float
+    id: nina2_sat_px_start_red
+    write_action:
+      - lambda: id(g_nina2_sat_px_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_sat_px_start_green
+    write_action:
+      - lambda: id(g_nina2_sat_px_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_sat_px_start_blue
+    write_action:
+      - lambda: id(g_nina2_sat_px_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_sat_px_end_red
+    write_action:
+      - lambda: id(g_nina2_sat_px_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_sat_px_end_green
+    write_action:
+      - lambda: id(g_nina2_sat_px_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina2_sat_px_end_blue
+    write_action:
+      - lambda: id(g_nina2_sat_px_c2_b) = state * 255.0;
+
+  # NINA3 Color Outputs
+  - platform: template
+    type: float
+    id: nina3_rms_start_red
+    write_action:
+      - lambda: id(g_nina3_rms_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_rms_start_green
+    write_action:
+      - lambda: id(g_nina3_rms_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_rms_start_blue
+    write_action:
+      - lambda: id(g_nina3_rms_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_rms_end_red
+    write_action:
+      - lambda: id(g_nina3_rms_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_rms_end_green
+    write_action:
+      - lambda: id(g_nina3_rms_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_rms_end_blue
+    write_action:
+      - lambda: id(g_nina3_rms_c2_b) = state * 255.0;
+
+  - platform: template
+    type: float
+    id: nina3_hfr_start_red
+    write_action:
+      - lambda: id(g_nina3_hfr_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_hfr_start_green
+    write_action:
+      - lambda: id(g_nina3_hfr_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_hfr_start_blue
+    write_action:
+      - lambda: id(g_nina3_hfr_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_hfr_end_red
+    write_action:
+      - lambda: id(g_nina3_hfr_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_hfr_end_green
+    write_action:
+      - lambda: id(g_nina3_hfr_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_hfr_end_blue
+    write_action:
+      - lambda: id(g_nina3_hfr_c2_b) = state * 255.0;
+
+  - platform: template
+    type: float
+    id: nina3_exp_num_start_red
+    write_action:
+      - lambda: id(g_nina3_exp_num_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_exp_num_start_green
+    write_action:
+      - lambda: id(g_nina3_exp_num_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_exp_num_start_blue
+    write_action:
+      - lambda: id(g_nina3_exp_num_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_exp_num_end_red
+    write_action:
+      - lambda: id(g_nina3_exp_num_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_exp_num_end_green
+    write_action:
+      - lambda: id(g_nina3_exp_num_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_exp_num_end_blue
+    write_action:
+      - lambda: id(g_nina3_exp_num_c2_b) = state * 255.0;
+
+  - platform: template
+    type: float
+    id: nina3_exp_time_start_red
+    write_action:
+      - lambda: id(g_nina3_exp_time_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_exp_time_start_green
+    write_action:
+      - lambda: id(g_nina3_exp_time_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_exp_time_start_blue
+    write_action:
+      - lambda: id(g_nina3_exp_time_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_exp_time_end_red
+    write_action:
+      - lambda: id(g_nina3_exp_time_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_exp_time_end_green
+    write_action:
+      - lambda: id(g_nina3_exp_time_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_exp_time_end_blue
+    write_action:
+      - lambda: id(g_nina3_exp_time_c2_b) = state * 255.0;
+
+  - platform: template
+    type: float
+    id: nina3_cam_temp_start_red
+    write_action:
+      - lambda: id(g_nina3_cam_temp_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_cam_temp_start_green
+    write_action:
+      - lambda: id(g_nina3_cam_temp_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_cam_temp_start_blue
+    write_action:
+      - lambda: id(g_nina3_cam_temp_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_cam_temp_end_red
+    write_action:
+      - lambda: id(g_nina3_cam_temp_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_cam_temp_end_green
+    write_action:
+      - lambda: id(g_nina3_cam_temp_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_cam_temp_end_blue
+    write_action:
+      - lambda: id(g_nina3_cam_temp_c2_b) = state * 255.0;
+
+  - platform: template
+    type: float
+    id: nina3_stars_start_red
+    write_action:
+      - lambda: id(g_nina3_stars_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_stars_start_green
+    write_action:
+      - lambda: id(g_nina3_stars_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_stars_start_blue
+    write_action:
+      - lambda: id(g_nina3_stars_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_stars_end_red
+    write_action:
+      - lambda: id(g_nina3_stars_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_stars_end_green
+    write_action:
+      - lambda: id(g_nina3_stars_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_stars_end_blue
+    write_action:
+      - lambda: id(g_nina3_stars_c2_b) = state * 255.0;
+
+  - platform: template
+    type: float
+    id: nina3_sat_px_start_red
+    write_action:
+      - lambda: id(g_nina3_sat_px_c1_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_sat_px_start_green
+    write_action:
+      - lambda: id(g_nina3_sat_px_c1_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_sat_px_start_blue
+    write_action:
+      - lambda: id(g_nina3_sat_px_c1_b) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_sat_px_end_red
+    write_action:
+      - lambda: id(g_nina3_sat_px_c2_r) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_sat_px_end_green
+    write_action:
+      - lambda: id(g_nina3_sat_px_c2_g) = state * 255.0;
+  - platform: template
+    type: float
+    id: nina3_sat_px_end_blue
+    write_action:
+      - lambda: id(g_nina3_sat_px_c2_b) = state * 255.0;
