@@ -685,29 +685,11 @@ select:
           apply_theme(id(card_ambient), card_c, border_c);
           apply_theme(id(card_power), card_c, border_c);
           
-          // NINA2 page cards
-          apply_theme(id(nina2_card_target), card_c, border_c);
-          apply_theme(id(nina2_card_rms), card_c, border_c);
-          apply_theme(id(nina2_card_hfr), card_c, border_c);
-          apply_theme(id(nina2_card_exp_num), card_c, border_c);
-          apply_theme(id(nina2_card_exp_time), card_c, border_c);
-          apply_theme(id(nina2_card_filter), card_c, border_c);
-          apply_theme(id(nina2_card_sat_px), card_c, border_c);
-          apply_theme(id(nina2_card_cam_temp), card_c, border_c);
-          apply_theme(id(nina2_card_stars), card_c, border_c);
-          apply_theme(id(nina2_card_ra_dec), card_c, border_c);
+          // NINA2 page cells (no cards in grid layout - cells are transparent)
+          // Grid layout doesn't use styled cards, just transparent containers
           
-          // NINA3 page cards
-          apply_theme(id(nina3_card_target), card_c, border_c);
-          apply_theme(id(nina3_card_rms), card_c, border_c);
-          apply_theme(id(nina3_card_hfr), card_c, border_c);
-          apply_theme(id(nina3_card_exp_num), card_c, border_c);
-          apply_theme(id(nina3_card_exp_time), card_c, border_c);
-          apply_theme(id(nina3_card_filter), card_c, border_c);
-          apply_theme(id(nina3_card_sat_px), card_c, border_c);
-          apply_theme(id(nina3_card_cam_temp), card_c, border_c);
-          apply_theme(id(nina3_card_stars), card_c, border_c);
-          apply_theme(id(nina3_card_ra_dec), card_c, border_c);
+          // NINA3 page cells (no cards in grid layout - cells are transparent)
+          // Grid layout doesn't use styled cards, just transparent containers
 
   - platform: template
     name: "Page Selection"

@@ -268,15 +268,23 @@ lvgl:
                         widgets:
                           - label: { id: lbl_cpu_temp_val, text: "--", styles: style_value_hero, width: 100% }
                           - label: { text: "CPU TEMP", styles: style_unit_small }
-                    - bar:
-                        id: bar_cpu_temp
+                    - obj:
                         width: 100%
-                        height: 12
-                        min_value: 0
-                        max_value: 100
-                        mode: NORMAL
-                        styles: style_bar_bg
-                        indicator: { styles: style_bar_red }
+                        height: 20
+                        bg_opa: TRANSP
+                        border_width: 0
+                        scrollbar_mode: "OFF"
+                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                        widgets:
+                          - bar:
+                              id: bar_cpu_temp
+                              width: 100%
+                              height: 12
+                              min_value: 0
+                              max_value: 100
+                              mode: NORMAL
+                              styles: style_bar_bg
+                              indicator: { styles: style_bar_red }
                     - label: { id: lbl_ssd_temp_val, text: "SSD: --°C", styles: style_label_sub, width: 100%, pad_top: 10 }
 
               # CARD 2: SKY INFO
@@ -357,15 +365,23 @@ lvgl:
                         widgets:
                           - label: { id: lbl_enclosure_temp_val, text: "--", styles: style_value_hero, width: 100% }
                           - label: { text: "TEMP °C", styles: style_unit_small }
-                    - bar:
-                        id: bar_enclosure
+                    - obj:
                         width: 100%
-                        height: 12
-                        min_value: 0
-                        max_value: 100
-                        mode: NORMAL
-                        styles: style_bar_bg
-                        indicator: { styles: style_bar_green }
+                        height: 20
+                        bg_opa: TRANSP
+                        border_width: 0
+                        scrollbar_mode: "OFF"
+                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                        widgets:
+                          - bar:
+                              id: bar_enclosure
+                              width: 100%
+                              height: 12
+                              min_value: 0
+                              max_value: 100
+                              mode: NORMAL
+                              styles: style_bar_bg
+                              indicator: { styles: style_bar_green }
                     - obj:
                         width: 100%
                         height: 60
@@ -397,15 +413,23 @@ lvgl:
                         widgets:
                           - label: { id: lbl_power_val, text: "--", styles: style_value_hero, width: 100% }
                           - label: { text: "WATTS", styles: style_unit_small }
-                    - bar:
-                        id: bar_power
+                    - obj:
                         width: 100%
-                        height: 12
-                        min_value: 0
-                        max_value: 100
-                        mode: NORMAL
-                        styles: style_bar_bg
-                        indicator: { styles: style_bar_amber }
+                        height: 20
+                        bg_opa: TRANSP
+                        border_width: 0
+                        scrollbar_mode: "OFF"
+                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                        widgets:
+                          - bar:
+                              id: bar_power
+                              width: 100%
+                              height: 12
+                              min_value: 0
+                              max_value: 100
+                              mode: NORMAL
+                              styles: style_bar_bg
+                              indicator: { styles: style_bar_amber }
                     - obj:
                         width: 100%
                         height: 50
@@ -429,90 +453,134 @@ lvgl:
             bg_opa: COVER
             border_width: 0
             scrollbar_mode: "OFF"
-            # Use SPACE_BETWEEN to stretch across full 720px height
-            layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
             pad_all: 15
+            layout:
+              type: grid
+              grid_columns: [FR(1), FR(1), FR(1)]
+              grid_rows: [120, 190, 140, 80, 130]
+              pad_row: 0
+              pad_column: 0
             widgets:
-              # ROW 1: TARGET (Full Width)
+              # Row 1: TARGET - spans all 3 columns
               - obj:
-                  id: nina2_card_target
-                  width: 100%
-                  height: 120
-                  styles: style_card_bg
-                  scrollbar_mode: "OFF"
+                  id: nina2_cell_target
+                  grid_cell_column_pos: 0
+                  grid_cell_column_span: 3
+                  grid_cell_row_pos: 0
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
                   widgets:
                     - label: { text: "NINA 2", styles: style_unit_small, align: BOTTOM_LEFT }
                     - label: { id: lbl_nina2_target, text: "--", text_font: font_target_large, text_color: 0xFFFFFF, align: RIGHT_MID }
 
-              # ROW 2: RMS & HFR (Two Columns)
+              # Row 2: RMS - column 0
               - obj:
-                  width: 100%
-                  height: 190
+                  id: nina2_cell_rms
+                  grid_cell_column_pos: 0
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 1
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: TRANSP
-                  border_width: 0
-                  layout: { type: flex, flex_flow: ROW, pad_column: 15 }
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: nina2_card_rms
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
-                        widgets:
-                          - label: { text: "RMS (Arc-sec)", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina2_rms, text: "--", text_font: font_roboto_hero, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
-                    - obj:
-                        id: nina2_card_hfr
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
-                        widgets:
-                          - label: { text: "HFR (Px)", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina2_hfr, text: "--", text_font: font_roboto_hero, text_color: 0xFF6B9D, text_align: CENTER, width: 100% }
+                    - label: { text: "RMS (Arc-sec)", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina2_rms, text: "--", text_font: font_roboto_hero, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
 
-              # ROW 3: EXP #, TIME, SAT (Three Columns)
+              # Row 2: HFR - spans columns 1-2
               - obj:
-                  width: 100%
-                  height: 140
+                  id: nina2_cell_hfr
+                  grid_cell_column_pos: 1
+                  grid_cell_column_span: 2
+                  grid_cell_row_pos: 1
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: TRANSP
-                  border_width: 0
-                  layout: { type: flex, flex_flow: ROW, pad_column: 12 }
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: nina2_card_exp_num
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
-                        widgets:
-                          - label: { text: "EXP #", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina2_exp_num, text: "--", text_font: font_header_40, text_color: 0x10B981, text_align: CENTER, width: 100% }
-                    - obj:
-                        id: nina2_card_exp_time
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
-                        widgets:
-                          - label: { text: "EXP (s)", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina2_exp_time, text: "--", text_font: font_header_40, text_color: 0xF59E0B, text_align: CENTER, width: 100% }
-                    - obj:
-                        id: nina2_card_sat_px
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
-                        widgets:
-                          - label: { text: "SAT. PIXELS", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina2_sat_px, text: "--", text_font: font_header_40, text_color: 0xCCCCCC, text_align: CENTER, width: 100% }
+                    - label: { text: "HFR (Px)", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina2_hfr, text: "--", text_font: font_roboto_hero, text_color: 0xFF6B9D, text_align: CENTER, width: 100% }
 
-              # ROW 4: FILTER (Full Width)
+              # Row 3: EXP # - column 0
               - obj:
-                  id: nina2_card_filter
-                  width: 100%
-                  height: 80
-                  styles: style_card_bg
+                  id: nina2_cell_exp_num
+                  grid_cell_column_pos: 0
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 2
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                  widgets:
+                    - label: { text: "EXP #", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina2_exp_num, text: "--", text_font: font_header_40, text_color: 0x10B981, text_align: CENTER, width: 100% }
+
+              # Row 3: EXP TIME - column 1
+              - obj:
+                  id: nina2_cell_exp_time
+                  grid_cell_column_pos: 1
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 2
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                  widgets:
+                    - label: { text: "EXP (s)", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina2_exp_time, text: "--", text_font: font_header_40, text_color: 0xF59E0B, text_align: CENTER, width: 100% }
+
+              # Row 3: SAT PIXELS - column 2
+              - obj:
+                  id: nina2_cell_sat_px
+                  grid_cell_column_pos: 2
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 2
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                  widgets:
+                    - label: { text: "SAT. PIXELS", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina2_sat_px, text: "--", text_font: font_header_40, text_color: 0xCCCCCC, text_align: CENTER, width: 100% }
+
+              # Row 4: FILTER - spans all 3 columns
+              - obj:
+                  id: nina2_cell_filter
+                  grid_cell_column_pos: 0
+                  grid_cell_column_span: 3
+                  grid_cell_row_pos: 3
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
                   layout: { type: flex, flex_flow: ROW, flex_align_main: SPACE_EVENLY, flex_align_cross: CENTER }
                   widgets:
                     - label: { id: lbl_nina2_filter_l, text: "L", styles: [style_filter_muted, style_clr_l] }
@@ -523,41 +591,59 @@ lvgl:
                     - label: { id: lbl_nina2_filter_ha, text: "Ha", styles: [style_filter_muted, style_clr_ha] }
                     - label: { id: lbl_nina2_filter_oiii, text: "Oiii", styles: [style_filter_muted, style_clr_oiii] }
 
-              # ROW 5: CAM, STARS, RA/DEC (Three Columns)
+              # Row 5: CAM TEMP - column 0
               - obj:
-                  width: 100%
-                  height: 130
+                  id: nina2_cell_cam_temp
+                  grid_cell_column_pos: 0
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 4
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: TRANSP
-                  border_width: 0
-                  layout: { type: flex, flex_flow: ROW, pad_column: 12 }
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
                   widgets:
-                    - obj:
-                        id: nina2_card_cam_temp
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
-                        widgets:
-                          - label: { text: "CAM (°C)", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina2_cam_temp, text: "--", text_font: font_roboto_28, text_color: 0x3B82F6, text_align: CENTER, width: 100% }
-                    - obj:
-                        id: nina2_card_stars
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
-                        widgets:
-                          - label: { text: "STARS", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina2_stars, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
-                    - obj:
-                        id: nina2_card_ra_dec
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
-                        widgets:
-                          - label: { id: lbl_nina2_ra_rms, text: "RA: --", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina2_dec_rms, text: "DEC: --", styles: style_unit_small, width: 100% }
+                    - label: { text: "CAM (°C)", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina2_cam_temp, text: "--", text_font: font_roboto_28, text_color: 0x3B82F6, text_align: CENTER, width: 100% }
+
+              # Row 5: STARS - column 1
+              - obj:
+                  id: nina2_cell_stars
+                  grid_cell_column_pos: 1
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 4
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                  widgets:
+                    - label: { text: "STARS", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina2_stars, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+
+              # Row 5: RA/DEC - column 2
+              - obj:
+                  id: nina2_cell_ra_dec
+                  grid_cell_column_pos: 2
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 4
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                  widgets:
+                    - label: { id: lbl_nina2_ra_rms, text: "RA: --", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina2_dec_rms, text: "DEC: --", styles: style_unit_small, width: 100% }
 
     - id: nina3_page
       styles: style_page_bg
@@ -571,89 +657,134 @@ lvgl:
             bg_opa: COVER
             border_width: 0
             scrollbar_mode: "OFF"
-            layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
             pad_all: 15
+            layout:
+              type: grid
+              grid_columns: [FR(1), FR(1), FR(1)]
+              grid_rows: [120, 190, 140, 80, 130]
+              pad_row: 0
+              pad_column: 0
             widgets:
-              # ROW 1: TARGET (Full Width)
+              # Row 1: TARGET - spans all 3 columns
               - obj:
-                  id: nina3_card_target
-                  width: 100%
-                  height: 120
-                  styles: style_card_bg
-                  scrollbar_mode: "OFF"
+                  id: nina3_cell_target
+                  grid_cell_column_pos: 0
+                  grid_cell_column_span: 3
+                  grid_cell_row_pos: 0
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
                   widgets:
                     - label: { text: "NINA 3", styles: style_unit_small, align: BOTTOM_LEFT }
                     - label: { id: lbl_nina3_target, text: "--", text_font: font_target_large, text_color: 0xFFFFFF, align: RIGHT_MID }
 
-              # ROW 2: RMS & HFR (Two Columns)
+              # Row 2: RMS - column 0
               - obj:
-                  width: 100%
-                  height: 190
+                  id: nina3_cell_rms
+                  grid_cell_column_pos: 0
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 1
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: TRANSP
-                  border_width: 0
-                  layout: { type: flex, flex_flow: ROW, pad_column: 15 }
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: nina3_card_rms
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
-                        widgets:
-                          - label: { text: "RMS (Arc-sec)", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina3_rms, text: "--", text_font: font_roboto_hero, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
-                    - obj:
-                        id: nina3_card_hfr
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
-                        widgets:
-                          - label: { text: "HFR (Px)", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina3_hfr, text: "--", text_font: font_roboto_hero, text_color: 0xFF6B9D, text_align: CENTER, width: 100% }
+                    - label: { text: "RMS (Arc-sec)", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina3_rms, text: "--", text_font: font_roboto_hero, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
 
-              # ROW 3: EXP #, TIME, SAT (Three Columns)
+              # Row 2: HFR - spans columns 1-2
               - obj:
-                  width: 100%
-                  height: 140
+                  id: nina3_cell_hfr
+                  grid_cell_column_pos: 1
+                  grid_cell_column_span: 2
+                  grid_cell_row_pos: 1
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: TRANSP
-                  border_width: 0
-                  layout: { type: flex, flex_flow: ROW, pad_column: 12 }
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: nina3_card_exp_num
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
-                        widgets:
-                          - label: { text: "EXP #", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina3_exp_num, text: "--", text_font: font_header_40, text_color: 0x10B981, text_align: CENTER, width: 100% }
-                    - obj:
-                        id: nina3_card_exp_time
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
-                        widgets:
-                          - label: { text: "EXP (s)", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina3_exp_time, text: "--", text_font: font_header_40, text_color: 0xF59E0B, text_align: CENTER, width: 100% }
-                    - obj:
-                        id: nina3_card_sat_px
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
-                        widgets:
-                          - label: { text: "SAT. PIXELS", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina3_sat_px, text: "--", text_font: font_header_40, text_color: 0xCCCCCC, text_align: CENTER, width: 100% }
+                    - label: { text: "HFR (Px)", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina3_hfr, text: "--", text_font: font_roboto_hero, text_color: 0xFF6B9D, text_align: CENTER, width: 100% }
 
-              # ROW 4: FILTER (Full Width)
+              # Row 3: EXP # - column 0
               - obj:
-                  id: nina3_card_filter
-                  width: 100%
-                  height: 80
-                  styles: style_card_bg
+                  id: nina3_cell_exp_num
+                  grid_cell_column_pos: 0
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 2
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                  widgets:
+                    - label: { text: "EXP #", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina3_exp_num, text: "--", text_font: font_header_40, text_color: 0x10B981, text_align: CENTER, width: 100% }
+
+              # Row 3: EXP TIME - column 1
+              - obj:
+                  id: nina3_cell_exp_time
+                  grid_cell_column_pos: 1
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 2
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                  widgets:
+                    - label: { text: "EXP (s)", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina3_exp_time, text: "--", text_font: font_header_40, text_color: 0xF59E0B, text_align: CENTER, width: 100% }
+
+              # Row 3: SAT PIXELS - column 2
+              - obj:
+                  id: nina3_cell_sat_px
+                  grid_cell_column_pos: 2
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 2
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                  widgets:
+                    - label: { text: "SAT. PIXELS", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina3_sat_px, text: "--", text_font: font_header_40, text_color: 0xCCCCCC, text_align: CENTER, width: 100% }
+
+              # Row 4: FILTER - spans all 3 columns
+              - obj:
+                  id: nina3_cell_filter
+                  grid_cell_column_pos: 0
+                  grid_cell_column_span: 3
+                  grid_cell_row_pos: 3
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
                   layout: { type: flex, flex_flow: ROW, flex_align_main: SPACE_EVENLY, flex_align_cross: CENTER }
                   widgets:
                     - label: { id: lbl_nina3_filter_l, text: "L", styles: [style_filter_muted, style_clr_l] }
@@ -664,38 +795,56 @@ lvgl:
                     - label: { id: lbl_nina3_filter_ha, text: "Ha", styles: [style_filter_muted, style_clr_ha] }
                     - label: { id: lbl_nina3_filter_oiii, text: "Oiii", styles: [style_filter_muted, style_clr_oiii] }
 
-              # ROW 5: CAM, STARS, RA/DEC (Three Columns)
+              # Row 5: CAM TEMP - column 0
               - obj:
-                  width: 100%
-                  height: 130
+                  id: nina3_cell_cam_temp
+                  grid_cell_column_pos: 0
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 4
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: TRANSP
-                  border_width: 0
-                  layout: { type: flex, flex_flow: ROW, pad_column: 12 }
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
                   widgets:
-                    - obj:
-                        id: nina3_card_cam_temp
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
-                        widgets:
-                          - label: { text: "CAM (°C)", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina3_cam_temp, text: "--", text_font: font_roboto_28, text_color: 0x3B82F6, text_align: CENTER, width: 100% }
-                    - obj:
-                        id: nina3_card_stars
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
-                        widgets:
-                          - label: { text: "STARS", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina3_stars, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
-                    - obj:
-                        id: nina3_card_ra_dec
-                        flex_grow: 1
-                        height: 100%
-                        styles: style_card_bg
-                        layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
-                        widgets:
-                          - label: { id: lbl_nina3_ra_rms, text: "RA: --", styles: style_unit_small, width: 100% }
-                          - label: { id: lbl_nina3_dec_rms, text: "DEC: --", styles: style_unit_small, width: 100% }
+                    - label: { text: "CAM (°C)", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina3_cam_temp, text: "--", text_font: font_roboto_28, text_color: 0x3B82F6, text_align: CENTER, width: 100% }
+
+              # Row 5: STARS - column 1
+              - obj:
+                  id: nina3_cell_stars
+                  grid_cell_column_pos: 1
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 4
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                  widgets:
+                    - label: { text: "STARS", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina3_stars, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+
+              # Row 5: RA/DEC - column 2
+              - obj:
+                  id: nina3_cell_ra_dec
+                  grid_cell_column_pos: 2
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 4
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                  widgets:
+                    - label: { id: lbl_nina3_ra_rms, text: "RA: --", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina3_dec_rms, text: "DEC: --", styles: style_unit_small, width: 100% }
