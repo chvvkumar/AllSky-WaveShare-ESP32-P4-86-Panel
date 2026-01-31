@@ -329,8 +329,8 @@ sensor:
             int val_int = (int)abs_v;
             int val_dec = (int)((abs_v - val_int) * 10.0 + 0.5);
             if (val_dec >= 10) { val_int++; val_dec = 0; }
-            lv_label_set_text_fmt(id(lbl_nina2_ra_rms), "RA: %d.%d\"", val_int, val_dec);
-          } else { lv_label_set_text(id(lbl_nina2_ra_rms), "RA: --"); }
+            lv_label_set_text_fmt(id(lbl_nina2_ra_rms), "RA:    %d.%d\"", val_int, val_dec);
+          } else { lv_label_set_text(id(lbl_nina2_ra_rms), "RA:    --"); }
 
   - platform: homeassistant
     id: nina2_dec_rms
@@ -493,7 +493,7 @@ sensor:
             int val_int = (int)abs_v;
             int val_dec = (int)((abs_v - val_int) * 10.0 + 0.5);
             if (val_dec >= 10) { val_int++; val_dec = 0; }
-            lv_label_set_text_fmt(id(lbl_nina3_rms), "%d.%d\"", val_int, val_dec);
+            lv_label_set_text_fmt(id(lbl_nina3_rms), "%d.%d", val_int, val_dec);
             // Update color if match_text_color is enabled
             if (id(match_text_color).state) {
               float min = id(set_nina3_rms_min).state;
@@ -518,8 +518,8 @@ sensor:
             int val_int = (int)abs_v;
             int val_dec = (int)((abs_v - val_int) * 10.0 + 0.5);
             if (val_dec >= 10) { val_int++; val_dec = 0; }
-            lv_label_set_text_fmt(id(lbl_nina3_ra_rms), "RA: %d.%d\"", val_int, val_dec);
-          } else { lv_label_set_text(id(lbl_nina3_ra_rms), "RA: --"); }
+            lv_label_set_text_fmt(id(lbl_nina3_ra_rms), "RA:   %d.%d\"", val_int, val_dec);
+          } else { lv_label_set_text(id(lbl_nina3_ra_rms), "RA:   --"); }
 
   - platform: homeassistant
     id: nina3_dec_rms
