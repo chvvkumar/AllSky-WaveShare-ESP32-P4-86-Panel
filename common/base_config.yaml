@@ -35,8 +35,9 @@ wifi:
   fast_connect: True
   post_connect_roaming: False
   networks:
-    - ssid: "IoT"
-      password: "kkkkkkkk"
+    - ssid: !secret wifi_ssid
+      password: !secret wifi_password
+      hidden: true
 
 api:
   encryption:

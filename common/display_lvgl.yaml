@@ -19,22 +19,22 @@ font:
     id: font_roboto_28
     size: 28
     bpp: 8
-    glyphs: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-°%/:_ #()\"²"
+    glyphs: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-°%/:_ #()'\"²"
   - file: { type: gfonts, family: Roboto Condensed, weight: 700 }
     id: font_header_40
     size: 40
     bpp: 8
-    glyphs: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.- \""
+    glyphs: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.- '\""
   - file: { type: gfonts, family: Roboto, weight: 700 }
     id: font_roboto_hero
     size: 90
     bpp: 8
-    glyphs: "0123456789.-°% finCWS\""
+    glyphs: "0123456789.-°% finCWS'\""
   - file: { type: gfonts, family: Roboto, weight: 700 }
     id: font_target_large
     size: 54
     bpp: 8
-    glyphs: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.- "
+    glyphs: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.- '"
 
 lvgl:
   buffer_size: 100%
@@ -94,6 +94,25 @@ lvgl:
       text_opa: 45%
       text_font: font_header_40
       text_color: filter_l
+      width: 80
+      height: 60
+      pad_all: 8
+      text_align: CENTER
+    - id: style_filter_highlight_box
+      bg_opa: 20%
+      bg_color: 0xFFFFFF
+      border_width: 2
+      border_color: 0xFFFFFF
+      border_opa: 60%
+      shadow_width: 12
+      shadow_ofs_x: 0
+      shadow_ofs_y: 0
+      shadow_color: 0xFFFFFF
+      shadow_opa: 50%
+      shadow_spread: 3
+      radius: 8
+      width: 85
+      height: 60
     - id: style_filter_active_l
       text_opa: 100%
       text_font: font_header_40
@@ -457,7 +476,7 @@ lvgl:
             layout:
               type: grid
               grid_columns: [FR(1), FR(1), FR(1)]
-              grid_rows: [120, 190, 140, 80, 130]
+              grid_rows: [120, 190, 140, 100, 140]
               pad_row: 0
               pad_column: 0
             widgets:
@@ -581,15 +600,29 @@ lvgl:
                   border_width: 1
                   border_color: 0x222222
                   pad_all: 8
-                  layout: { type: flex, flex_flow: ROW, flex_align_main: SPACE_EVENLY, flex_align_cross: CENTER }
+                  scrollbar_mode: "OFF"
                   widgets:
-                    - label: { id: lbl_nina2_filter_l, text: "L", styles: [style_filter_muted, style_clr_l] }
-                    - label: { id: lbl_nina2_filter_r, text: "R", styles: [style_filter_muted, style_clr_r] }
-                    - label: { id: lbl_nina2_filter_g, text: "G", styles: [style_filter_muted, style_clr_g] }
-                    - label: { id: lbl_nina2_filter_b, text: "B", styles: [style_filter_muted, style_clr_b] }
-                    - label: { id: lbl_nina2_filter_sii, text: "Sii", styles: [style_filter_muted, style_clr_sii] }
-                    - label: { id: lbl_nina2_filter_ha, text: "Ha", styles: [style_filter_muted, style_clr_ha] }
-                    - label: { id: lbl_nina2_filter_oiii, text: "Oiii", styles: [style_filter_muted, style_clr_oiii] }
+                    - obj:
+                        id: nina2_filter_highlight
+                        x: -100
+                        y: 10
+                        hidden: true
+                        styles: style_filter_highlight_box
+                    - obj:
+                        width: 100%
+                        height: 100%
+                        bg_opa: TRANSP
+                        border_width: 0
+                        scrollbar_mode: "OFF"
+                        layout: { type: flex, flex_flow: ROW, flex_align_main: SPACE_EVENLY, flex_align_cross: CENTER }
+                        widgets:
+                          - label: { id: lbl_nina2_filter_l, text: "L", styles: [style_filter_muted, style_clr_l] }
+                          - label: { id: lbl_nina2_filter_r, text: "R", styles: [style_filter_muted, style_clr_r] }
+                          - label: { id: lbl_nina2_filter_g, text: "G", styles: [style_filter_muted, style_clr_g] }
+                          - label: { id: lbl_nina2_filter_b, text: "B", styles: [style_filter_muted, style_clr_b] }
+                          - label: { id: lbl_nina2_filter_sii, text: "Sii", styles: [style_filter_muted, style_clr_sii] }
+                          - label: { id: lbl_nina2_filter_ha, text: "Ha", styles: [style_filter_muted, style_clr_ha] }
+                          - label: { id: lbl_nina2_filter_oiii, text: "Oiii", styles: [style_filter_muted, style_clr_oiii] }
 
               # Row 5: CAM TEMP - column 0
               - obj:
@@ -661,7 +694,7 @@ lvgl:
             layout:
               type: grid
               grid_columns: [FR(1), FR(1), FR(1)]
-              grid_rows: [120, 190, 140, 80, 130]
+              grid_rows: [120, 190, 140, 100, 140]
               pad_row: 0
               pad_column: 0
             widgets:
@@ -785,15 +818,29 @@ lvgl:
                   border_width: 1
                   border_color: 0x222222
                   pad_all: 8
-                  layout: { type: flex, flex_flow: ROW, flex_align_main: SPACE_EVENLY, flex_align_cross: CENTER }
+                  scrollbar_mode: "OFF"
                   widgets:
-                    - label: { id: lbl_nina3_filter_l, text: "L", styles: [style_filter_muted, style_clr_l] }
-                    - label: { id: lbl_nina3_filter_r, text: "R", styles: [style_filter_muted, style_clr_r] }
-                    - label: { id: lbl_nina3_filter_g, text: "G", styles: [style_filter_muted, style_clr_g] }
-                    - label: { id: lbl_nina3_filter_b, text: "B", styles: [style_filter_muted, style_clr_b] }
-                    - label: { id: lbl_nina3_filter_sii, text: "Sii", styles: [style_filter_muted, style_clr_sii] }
-                    - label: { id: lbl_nina3_filter_ha, text: "Ha", styles: [style_filter_muted, style_clr_ha] }
-                    - label: { id: lbl_nina3_filter_oiii, text: "Oiii", styles: [style_filter_muted, style_clr_oiii] }
+                    - obj:
+                        id: nina3_filter_highlight
+                        x: -100
+                        y: 10
+                        hidden: true
+                        styles: style_filter_highlight_box
+                    - obj:
+                        width: 100%
+                        height: 100%
+                        bg_opa: TRANSP
+                        border_width: 0
+                        scrollbar_mode: "OFF"
+                        layout: { type: flex, flex_flow: ROW, flex_align_main: SPACE_EVENLY, flex_align_cross: CENTER }
+                        widgets:
+                          - label: { id: lbl_nina3_filter_l, text: "L", styles: [style_filter_muted, style_clr_l] }
+                          - label: { id: lbl_nina3_filter_r, text: "R", styles: [style_filter_muted, style_clr_r] }
+                          - label: { id: lbl_nina3_filter_g, text: "G", styles: [style_filter_muted, style_clr_g] }
+                          - label: { id: lbl_nina3_filter_b, text: "B", styles: [style_filter_muted, style_clr_b] }
+                          - label: { id: lbl_nina3_filter_sii, text: "Sii", styles: [style_filter_muted, style_clr_sii] }
+                          - label: { id: lbl_nina3_filter_ha, text: "Ha", styles: [style_filter_muted, style_clr_ha] }
+                          - label: { id: lbl_nina3_filter_oiii, text: "Oiii", styles: [style_filter_muted, style_clr_oiii] }
 
               # Row 5: CAM TEMP - column 0
               - obj:
