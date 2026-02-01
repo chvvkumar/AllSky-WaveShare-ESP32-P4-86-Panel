@@ -689,6 +689,25 @@ lvgl:
                     - label: { text: "STARS", styles: style_unit_small, width: 100% }
                     - label: { id: lbl_nina2_stars, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
 
+              # Row 5: CLOUD DETECTOR - column 2
+              - obj:
+                  id: nina2_cell_cloud_detector
+                  grid_cell_column_pos: 2
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 4
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  scrollbar_mode: "OFF"
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                  widgets:
+                    - label: { text: "SKY", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina2_cloud_detector, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+
     - id: nina3_page
       styles: style_page_bg
       scrollbar_mode: "OFF"
@@ -906,3 +925,22 @@ lvgl:
                   widgets:
                     - label: { text: "STARS", styles: style_unit_small, width: 100% }
                     - label: { id: lbl_nina3_stars, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+
+              # Row 5: CLOUD DETECTOR - column 2
+              - obj:
+                  id: nina3_cell_cloud_detector
+                  grid_cell_column_pos: 2
+                  grid_cell_column_span: 1
+                  grid_cell_row_pos: 4
+                  grid_cell_row_span: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: TRANSP
+                  border_width: 1
+                  border_color: 0x222222
+                  pad_all: 8
+                  scrollbar_mode: "OFF"
+                  layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
+                  widgets:
+                    - label: { text: "SKY", styles: style_unit_small, width: 100% }
+                    - label: { id: lbl_nina3_cloud_detector, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }

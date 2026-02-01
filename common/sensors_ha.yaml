@@ -645,6 +645,8 @@ text_sensor:
     on_value:
       - lambda: |- 
           lv_label_set_text(id(lbl_cloud_status), x.c_str());
+          lv_label_set_text(id(lbl_nina2_cloud_detector), x.c_str());
+          lv_label_set_text(id(lbl_nina3_cloud_detector), x.c_str());
 
   - platform: homeassistant
     id: nina2_filter
