@@ -971,7 +971,7 @@ lvgl:
                     - label: { text: "SKY", styles: style_unit_small, width: 100% }
                     - label: { id: lbl_nina3_cloud_detector, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
 
-    # PLANTS PAGE - 9 Plant High-Density Dashboard
+# PLANTS PAGE - 9 Plant High-Density Dashboard (Full 720x720 Grid)
     - id: plants_page
       styles: style_page_bg
       scrollbar_mode: "OFF"
@@ -987,51 +987,26 @@ lvgl:
             layout:
               type: grid
               grid_columns: [FR(1), FR(1), FR(1)]
-              grid_rows: [60, FR(1), FR(1), FR(1)]
+              grid_rows: [FR(1), FR(1), FR(1)]  # Refactored to pure 3x3 without header row
               pad_row: 10
               pad_column: 10
             pad_all: 10
             widgets:
-              # Header
-              - obj:
-                  grid_cell_column_pos: 0
-                  grid_cell_column_span: 3
-                  grid_cell_row_pos: 0
-                  grid_cell_row_span: 1
-                  width: 100%
-                  height: 60
-                  bg_color: 0x111111
-                  bg_opa: COVER
-                  border_width: 0
-                  pad_all: 12
-                  layout: { type: flex, flex_flow: ROW, flex_align_main: START, flex_align_cross: CENTER }
-                  widgets:
-                    - label: { text: "* PLANT MONITOR", text_font: font_header_40, text_color: 0x10B981, text_align: LEFT }
-              
               # Plant 1: Spider Plant
               - obj:
                   id: plant_strip_spider
                   grid_cell_column_pos: 0
-                  grid_cell_column_span: 1
-                  grid_cell_row_pos: 1
-                  grid_cell_row_span: 1
+                  grid_cell_row_pos: 0
                   width: 100%
                   height: 100%
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: accent_spider
-                        width: 100%
-                        height: 6
-                        bg_color: color_ok
-                        bg_opa: COVER
-                        border_width: 0
-                        radius: 3
+                    - obj: { id: accent_spider, width: 100%, height: 8, bg_color: color_ok, bg_opa: COVER, border_width: 0, radius: 4 }
                     - label: { id: lbl_name_spider, text: "Spider Plant", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - obj:
                         width: 100%
-                        height: 30
+                        height: 40
                         bg_opa: TRANSP
                         border_width: 0
                         layout: { type: flex, flex_flow: ROW, flex_align_main: CENTER, flex_align_cross: CENTER }
@@ -1043,26 +1018,17 @@ lvgl:
               - obj:
                   id: plant_strip_jade
                   grid_cell_column_pos: 1
-                  grid_cell_column_span: 1
-                  grid_cell_row_pos: 1
-                  grid_cell_row_span: 1
+                  grid_cell_row_pos: 0
                   width: 100%
                   height: 100%
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: accent_jade
-                        width: 100%
-                        height: 6
-                        bg_color: color_ok
-                        bg_opa: COVER
-                        border_width: 0
-                        radius: 3
+                    - obj: { id: accent_jade, width: 100%, height: 8, bg_color: color_ok, bg_opa: COVER, border_width: 0, radius: 4 }
                     - label: { id: lbl_name_jade, text: "Jade Plant", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - obj:
                         width: 100%
-                        height: 30
+                        height: 40
                         bg_opa: TRANSP
                         border_width: 0
                         layout: { type: flex, flex_flow: ROW, flex_align_main: CENTER, flex_align_cross: CENTER }
@@ -1074,26 +1040,17 @@ lvgl:
               - obj:
                   id: plant_strip_elephant
                   grid_cell_column_pos: 2
-                  grid_cell_column_span: 1
-                  grid_cell_row_pos: 1
-                  grid_cell_row_span: 1
+                  grid_cell_row_pos: 0
                   width: 100%
                   height: 100%
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: accent_elephant
-                        width: 100%
-                        height: 6
-                        bg_color: color_ok
-                        bg_opa: COVER
-                        border_width: 0
-                        radius: 3
+                    - obj: { id: accent_elephant, width: 100%, height: 8, bg_color: color_ok, bg_opa: COVER, border_width: 0, radius: 4 }
                     - label: { id: lbl_name_elephant, text: "Elephant Ears", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - obj:
                         width: 100%
-                        height: 30
+                        height: 40
                         bg_opa: TRANSP
                         border_width: 0
                         layout: { type: flex, flex_flow: ROW, flex_align_main: CENTER, flex_align_cross: CENTER }
@@ -1105,26 +1062,17 @@ lvgl:
               - obj:
                   id: plant_strip_begonia
                   grid_cell_column_pos: 0
-                  grid_cell_column_span: 1
-                  grid_cell_row_pos: 2
-                  grid_cell_row_span: 1
+                  grid_cell_row_pos: 1
                   width: 100%
                   height: 100%
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: accent_begonia
-                        width: 100%
-                        height: 6
-                        bg_color: color_ok
-                        bg_opa: COVER
-                        border_width: 0
-                        radius: 3
+                    - obj: { id: accent_begonia, width: 100%, height: 8, bg_color: color_ok, bg_opa: COVER, border_width: 0, radius: 4 }
                     - label: { id: lbl_name_begonia, text: "Begonia", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - obj:
                         width: 100%
-                        height: 30
+                        height: 40
                         bg_opa: TRANSP
                         border_width: 0
                         layout: { type: flex, flex_flow: ROW, flex_align_main: CENTER, flex_align_cross: CENTER }
@@ -1136,26 +1084,17 @@ lvgl:
               - obj:
                   id: plant_strip_nerve
                   grid_cell_column_pos: 1
-                  grid_cell_column_span: 1
-                  grid_cell_row_pos: 2
-                  grid_cell_row_span: 1
+                  grid_cell_row_pos: 1
                   width: 100%
                   height: 100%
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: accent_nerve
-                        width: 100%
-                        height: 6
-                        bg_color: color_ok
-                        bg_opa: COVER
-                        border_width: 0
-                        radius: 3
+                    - obj: { id: accent_nerve, width: 100%, height: 8, bg_color: color_ok, bg_opa: COVER, border_width: 0, radius: 4 }
                     - label: { id: lbl_name_nerve, text: "Nerve Plant", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - obj:
                         width: 100%
-                        height: 30
+                        height: 40
                         bg_opa: TRANSP
                         border_width: 0
                         layout: { type: flex, flex_flow: ROW, flex_align_main: CENTER, flex_align_cross: CENTER }
@@ -1167,26 +1106,17 @@ lvgl:
               - obj:
                   id: plant_strip_pothos
                   grid_cell_column_pos: 2
-                  grid_cell_column_span: 1
-                  grid_cell_row_pos: 2
-                  grid_cell_row_span: 1
+                  grid_cell_row_pos: 1
                   width: 100%
                   height: 100%
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: accent_pothos
-                        width: 100%
-                        height: 6
-                        bg_color: color_ok
-                        bg_opa: COVER
-                        border_width: 0
-                        radius: 3
+                    - obj: { id: accent_pothos, width: 100%, height: 8, bg_color: color_ok, bg_opa: COVER, border_width: 0, radius: 4 }
                     - label: { id: lbl_name_pothos, text: "Pothos", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - obj:
                         width: 100%
-                        height: 30
+                        height: 40
                         bg_opa: TRANSP
                         border_width: 0
                         layout: { type: flex, flex_flow: ROW, flex_align_main: CENTER, flex_align_cross: CENTER }
@@ -1198,26 +1128,17 @@ lvgl:
               - obj:
                   id: plant_strip_croton
                   grid_cell_column_pos: 0
-                  grid_cell_column_span: 1
-                  grid_cell_row_pos: 3
-                  grid_cell_row_span: 1
+                  grid_cell_row_pos: 2
                   width: 100%
                   height: 100%
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: accent_croton
-                        width: 100%
-                        height: 6
-                        bg_color: color_ok
-                        bg_opa: COVER
-                        border_width: 0
-                        radius: 3
+                    - obj: { id: accent_croton, width: 100%, height: 8, bg_color: color_ok, bg_opa: COVER, border_width: 0, radius: 4 }
                     - label: { id: lbl_name_croton, text: "Croton", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - obj:
                         width: 100%
-                        height: 30
+                        height: 40
                         bg_opa: TRANSP
                         border_width: 0
                         layout: { type: flex, flex_flow: ROW, flex_align_main: CENTER, flex_align_cross: CENTER }
@@ -1229,26 +1150,17 @@ lvgl:
               - obj:
                   id: plant_strip_aglaonema
                   grid_cell_column_pos: 1
-                  grid_cell_column_span: 1
-                  grid_cell_row_pos: 3
-                  grid_cell_row_span: 1
+                  grid_cell_row_pos: 2
                   width: 100%
                   height: 100%
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: accent_aglaonema
-                        width: 100%
-                        height: 6
-                        bg_color: color_ok
-                        bg_opa: COVER
-                        border_width: 0
-                        radius: 3
+                    - obj: { id: accent_aglaonema, width: 100%, height: 8, bg_color: color_ok, bg_opa: COVER, border_width: 0, radius: 4 }
                     - label: { id: lbl_name_aglaonema, text: "Aglaonema", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - obj:
                         width: 100%
-                        height: 30
+                        height: 40
                         bg_opa: TRANSP
                         border_width: 0
                         layout: { type: flex, flex_flow: ROW, flex_align_main: CENTER, flex_align_cross: CENTER }
@@ -1260,26 +1172,17 @@ lvgl:
               - obj:
                   id: plant_strip_monstera
                   grid_cell_column_pos: 2
-                  grid_cell_column_span: 1
-                  grid_cell_row_pos: 3
-                  grid_cell_row_span: 1
+                  grid_cell_row_pos: 2
                   width: 100%
                   height: 100%
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
-                    - obj:
-                        id: accent_monstera
-                        width: 100%
-                        height: 6
-                        bg_color: color_ok
-                        bg_opa: COVER
-                        border_width: 0
-                        radius: 3
+                    - obj: { id: accent_monstera, width: 100%, height: 8, bg_color: color_ok, bg_opa: COVER, border_width: 0, radius: 4 }
                     - label: { id: lbl_name_monstera, text: "Monstera", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - obj:
                         width: 100%
-                        height: 30
+                        height: 40
                         bg_opa: TRANSP
                         border_width: 0
                         layout: { type: flex, flex_flow: ROW, flex_align_main: CENTER, flex_align_cross: CENTER }
