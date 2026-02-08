@@ -563,11 +563,11 @@ lvgl:
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
                     - label: { text: "Heater", styles: style_unit_small, width: 100% }
-                    - label: { id: lbl_nina2_heater, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+                    - label: { id: lbl_nina2_heater, text: "--", text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - label: { text: "Current", styles: style_unit_small, width: 100% }
-                    - label: { id: lbl_nina2_current, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+                    - label: { id: lbl_nina2_current, text: "--", text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - label: { text: "Power", styles: style_unit_small, width: 100% }
-                    - label: { id: lbl_nina2_power, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+                    - label: { id: lbl_nina2_power, text: "--", text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
 
               # Row 3: EXP # - column 0
               - obj:
@@ -676,7 +676,7 @@ lvgl:
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
                   widgets:
                     - label: { text: "CAM (°C)", styles: style_unit_small, width: 100% }
-                    - label: { id: lbl_nina2_cam_temp, text: "--", text_font: font_roboto_28, text_color: 0x3B82F6, text_align: CENTER, width: 100% }
+                    - label: { id: lbl_nina2_cam_temp, text: "--", text_color: 0x3B82F6, text_align: CENTER, width: 100% }
 
               # Row 5: STARS - column 1
               - obj:
@@ -694,7 +694,7 @@ lvgl:
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
                   widgets:
                     - label: { text: "STARS", styles: style_unit_small, width: 100% }
-                    - label: { id: lbl_nina2_stars, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+                    - label: { id: lbl_nina2_stars, text: "--", text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
 
               # Row 5: CLOUD DETECTOR - column 2
               - obj:
@@ -713,7 +713,7 @@ lvgl:
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
                   widgets:
                     - label: { text: "SKY", styles: style_unit_small, width: 100% }
-                    - label: { id: lbl_nina2_cloud_detector, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+                    - label: { id: lbl_nina2_cloud_detector, text: "--", text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
 
     - id: nina3_page
       styles: style_page_bg
@@ -815,11 +815,11 @@ lvgl:
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: SPACE_BETWEEN }
                   widgets:
                     - label: { text: "Heater", styles: style_unit_small, width: 100% }
-                    - label: { id: lbl_nina3_heater, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+                    - label: { id: lbl_nina3_heater, text: "--", text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - label: { text: "Current", styles: style_unit_small, width: 100% }
-                    - label: { id: lbl_nina3_current, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+                    - label: { id: lbl_nina3_current, text: "--", text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
                     - label: { text: "Power", styles: style_unit_small, width: 100% }
-                    - label: { id: lbl_nina3_power, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+                    - label: { id: lbl_nina3_power, text: "--", text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
 
               # Row 3: EXP # - column 0
               - obj:
@@ -928,7 +928,7 @@ lvgl:
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
                   widgets:
                     - label: { text: "CAM (°C)", styles: style_unit_small, width: 100% }
-                    - label: { id: lbl_nina3_cam_temp, text: "--", text_font: font_roboto_28, text_color: 0x3B82F6, text_align: CENTER, width: 100% }
+                    - label: { id: lbl_nina3_cam_temp, text: "--", text_color: 0x3B82F6, text_align: CENTER, width: 100% }
 
               # Row 5: STARS - column 1
               - obj:
@@ -946,7 +946,7 @@ lvgl:
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
                   widgets:
                     - label: { text: "STARS", styles: style_unit_small, width: 100% }
-                    - label: { id: lbl_nina3_stars, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+                    - label: { id: lbl_nina3_stars, text: "--", text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
 
               # Row 5: CLOUD DETECTOR - column 2
               - obj:
@@ -965,7 +965,7 @@ lvgl:
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER }
                   widgets:
                     - label: { text: "SKY", styles: style_unit_small, width: 100% }
-                    - label: { id: lbl_nina3_cloud_detector, text: "--", text_font: font_roboto_28, text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
+                    - label: { id: lbl_nina3_cloud_detector, text: "--", text_color: 0xFFFFFF, text_align: CENTER, width: 100% }
 
     - id: plants_page
       styles: style_page_bg
@@ -997,9 +997,9 @@ lvgl:
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER, flex_align_cross: CENTER }
                   widgets:
-                    - label: { text: "Spider Plant", styles: style_header, text_font: font_roboto_28 }
+                    - label: { text: "Spider Plant", styles: style_header }
                     - label: { id: lbl_plant_spider_plant_status, text: "--", styles: style_unit_small }
-                    - label: { id: lbl_plant_spider_plant_moisture, text: "--%", styles: style_value_hero, width: 100%, text_align: RIGHT }
+                    - label: { id: lbl_plant_spider_plant_moisture, text: "--%", styles: style_value_hero, width: 100% }
 
               # Row 1, Col 2: Jade Plant
               - obj:
@@ -1010,9 +1010,9 @@ lvgl:
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER, flex_align_cross: CENTER }
                   widgets:
-                    - label: { text: "Jade Plant", styles: style_header, text_font: font_roboto_28 }
+                    - label: { text: "Jade Plant", styles: style_header }
                     - label: { id: lbl_plant_jade_plant_status, text: "--", styles: style_unit_small }
-                    - label: { id: lbl_plant_jade_plant_moisture, text: "--%", styles: style_value_hero, width: 100%, text_align: RIGHT }
+                    - label: { id: lbl_plant_jade_plant_moisture, text: "--%", styles: style_value_hero, width: 100% }
 
               # Row 1, Col 3: Pothos
               - obj:
@@ -1023,9 +1023,9 @@ lvgl:
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER, flex_align_cross: CENTER }
                   widgets:
-                    - label: { text: "Pothos", styles: style_header, text_font: font_roboto_28 }
+                    - label: { text: "Pothos", styles: style_header }
                     - label: { id: lbl_plant_pothos_status, text: "--", styles: style_unit_small }
-                    - label: { id: lbl_plant_pothos_moisture, text: "--%", styles: style_value_hero, width: 100%, text_align: RIGHT }
+                    - label: { id: lbl_plant_pothos_moisture, text: "--%", styles: style_value_hero, width: 100% }
 
               # Row 2, Col 1: Begonia
               - obj:
@@ -1036,9 +1036,9 @@ lvgl:
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER, flex_align_cross: CENTER }
                   widgets:
-                    - label: { text: "Begonia", styles: style_header, text_font: font_roboto_28 }
+                    - label: { text: "Begonia", styles: style_header }
                     - label: { id: lbl_plant_begonia_status, text: "--", styles: style_unit_small }
-                    - label: { id: lbl_plant_begonia_moisture, text: "--%", styles: style_value_hero, width: 100%, text_align: RIGHT }
+                    - label: { id: lbl_plant_begonia_moisture, text: "--%", styles: style_value_hero, width: 100% }
 
               # Row 2, Col 2: Monstera
               - obj:
@@ -1049,9 +1049,9 @@ lvgl:
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER, flex_align_cross: CENTER }
                   widgets:
-                    - label: { text: "Monstera", styles: style_header, text_font: font_roboto_28 }
+                    - label: { text: "Monstera", styles: style_header }
                     - label: { id: lbl_plant_monstera_status, text: "--", styles: style_unit_small }
-                    - label: { id: lbl_plant_monstera_moisture, text: "--%", styles: style_value_hero, width: 100%, text_align: RIGHT }
+                    - label: { id: lbl_plant_monstera_moisture, text: "--%", styles: style_value_hero, width: 100% }
 
               # Row 2, Col 3: Nerve Plant
               - obj:
@@ -1062,9 +1062,9 @@ lvgl:
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER, flex_align_cross: CENTER }
                   widgets:
-                    - label: { text: "Nerve Plant", styles: style_header, text_font: font_roboto_28 }
+                    - label: { text: "Nerve Plant", styles: style_header }
                     - label: { id: lbl_plant_nerve_plant_status, text: "--", styles: style_unit_small }
-                    - label: { id: lbl_plant_nerve_plant_moisture, text: "--%", styles: style_value_hero, width: 100%, text_align: RIGHT }
+                    - label: { id: lbl_plant_nerve_plant_moisture, text: "--%", styles: style_value_hero, width: 100% }
 
               # Row 3, Col 1: Aglaonema
               - obj:
@@ -1075,9 +1075,9 @@ lvgl:
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER, flex_align_cross: CENTER }
                   widgets:
-                    - label: { text: "Aglaonema", styles: style_header, text_font: font_roboto_28 }
+                    - label: { text: "Aglaonema", styles: style_header }
                     - label: { id: lbl_plant_aglaonema_status, text: "--", styles: style_unit_small }
-                    - label: { id: lbl_plant_aglaonema_moisture, text: "--%", styles: style_value_hero, width: 100%, text_align: RIGHT }
+                    - label: { id: lbl_plant_aglaonema_moisture, text: "--%", styles: style_value_hero, width: 100% }
 
               # Row 3, Col 2: Croton
               - obj:
@@ -1088,9 +1088,9 @@ lvgl:
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER, flex_align_cross: CENTER }
                   widgets:
-                    - label: { text: "Croton", styles: style_header, text_font: font_roboto_28 }
+                    - label: { text: "Croton", styles: style_header }
                     - label: { id: lbl_plant_croton_status, text: "--", styles: style_unit_small }
-                    - label: { id: lbl_plant_croton_moisture, text: "--%", styles: style_value_hero, width: 100%, text_align: RIGHT }
+                    - label: { id: lbl_plant_croton_moisture, text: "--%", styles: style_value_hero, width: 100% }
 
               # Row 3, Col 3: Elephant Ears
               - obj:
@@ -1101,6 +1101,6 @@ lvgl:
                   styles: style_card_bg
                   layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER, flex_align_cross: CENTER }
                   widgets:
-                    - label: { text: "Elephant Ears", styles: style_header, text_font: font_roboto_28 }
+                    - label: { text: "Elephant Ears", styles: style_header }
                     - label: { id: lbl_plant_elephant_ears_status, text: "--", styles: style_unit_small }
-                    - label: { id: lbl_plant_elephant_ears_moisture, text: "--%", styles: style_value_hero, width: 100%, text_align: RIGHT }
+                    - label: { id: lbl_plant_elephant_ears_moisture, text: "--%", styles: style_value_hero, width: 100% }

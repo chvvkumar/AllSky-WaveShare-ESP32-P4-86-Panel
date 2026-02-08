@@ -5,7 +5,19 @@ text_sensor:
     entity_id: plant.spider_plant
     attribute: moisture_status
     on_value:
-      - lambda: lv_label_set_text(id(lbl_plant_spider_plant_status), x.c_str());
+      - lambda: |-
+          lv_label_set_text(id(lbl_plant_spider_plant_status), x.c_str());
+          std::string val = x;
+          std::transform(val.begin(), val.end(), val.begin(), ::tolower);
+          if (val == "ok") {
+            lv_obj_set_style_text_color(id(lbl_plant_spider_plant_status), lv_color_hex(0x10B981), LV_PART_MAIN);
+          } else if (val == "low") {
+            lv_obj_set_style_text_color(id(lbl_plant_spider_plant_status), lv_color_hex(0xEF4444), LV_PART_MAIN);
+          } else if (val == "high") {
+            lv_obj_set_style_text_color(id(lbl_plant_spider_plant_status), lv_color_hex(0x3B82F6), LV_PART_MAIN);
+          } else {
+            lv_obj_set_style_text_color(id(lbl_plant_spider_plant_status), lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+          }
 
   # Jade Plant
   - platform: homeassistant
@@ -13,7 +25,19 @@ text_sensor:
     entity_id: plant.jade_plant
     attribute: moisture_status
     on_value:
-      - lambda: lv_label_set_text(id(lbl_plant_jade_plant_status), x.c_str());
+      - lambda: |-
+          lv_label_set_text(id(lbl_plant_jade_plant_status), x.c_str());
+          std::string val = x;
+          std::transform(val.begin(), val.end(), val.begin(), ::tolower);
+          if (val == "ok") {
+            lv_obj_set_style_text_color(id(lbl_plant_jade_plant_status), lv_color_hex(0x10B981), LV_PART_MAIN);
+          } else if (val == "low") {
+            lv_obj_set_style_text_color(id(lbl_plant_jade_plant_status), lv_color_hex(0xEF4444), LV_PART_MAIN);
+          } else if (val == "high") {
+            lv_obj_set_style_text_color(id(lbl_plant_jade_plant_status), lv_color_hex(0x3B82F6), LV_PART_MAIN);
+          } else {
+            lv_obj_set_style_text_color(id(lbl_plant_jade_plant_status), lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+          }
 
   # Pothos
   - platform: homeassistant
@@ -21,7 +45,19 @@ text_sensor:
     entity_id: plant.pothos
     attribute: moisture_status
     on_value:
-      - lambda: lv_label_set_text(id(lbl_plant_pothos_status), x.c_str());
+      - lambda: |-
+          lv_label_set_text(id(lbl_plant_pothos_status), x.c_str());
+          std::string val = x;
+          std::transform(val.begin(), val.end(), val.begin(), ::tolower);
+          if (val == "ok") {
+            lv_obj_set_style_text_color(id(lbl_plant_pothos_status), lv_color_hex(0x10B981), LV_PART_MAIN);
+          } else if (val == "low") {
+            lv_obj_set_style_text_color(id(lbl_plant_pothos_status), lv_color_hex(0xEF4444), LV_PART_MAIN);
+          } else if (val == "high") {
+            lv_obj_set_style_text_color(id(lbl_plant_pothos_status), lv_color_hex(0x3B82F6), LV_PART_MAIN);
+          } else {
+            lv_obj_set_style_text_color(id(lbl_plant_pothos_status), lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+          }
 
   # Begonia
   - platform: homeassistant
@@ -29,7 +65,19 @@ text_sensor:
     entity_id: plant.begonia
     attribute: moisture_status
     on_value:
-      - lambda: lv_label_set_text(id(lbl_plant_begonia_status), x.c_str());
+      - lambda: |-
+          lv_label_set_text(id(lbl_plant_begonia_status), x.c_str());
+          std::string val = x;
+          std::transform(val.begin(), val.end(), val.begin(), ::tolower);
+          if (val == "ok") {
+            lv_obj_set_style_text_color(id(lbl_plant_begonia_status), lv_color_hex(0x10B981), LV_PART_MAIN);
+          } else if (val == "low") {
+            lv_obj_set_style_text_color(id(lbl_plant_begonia_status), lv_color_hex(0xEF4444), LV_PART_MAIN);
+          } else if (val == "high") {
+            lv_obj_set_style_text_color(id(lbl_plant_begonia_status), lv_color_hex(0x3B82F6), LV_PART_MAIN);
+          } else {
+            lv_obj_set_style_text_color(id(lbl_plant_begonia_status), lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+          }
 
   # Monstera
   - platform: homeassistant
@@ -37,7 +85,19 @@ text_sensor:
     entity_id: plant.monstera
     attribute: moisture_status
     on_value:
-      - lambda: lv_label_set_text(id(lbl_plant_monstera_status), x.c_str());
+      - lambda: |-
+          lv_label_set_text(id(lbl_plant_monstera_status), x.c_str());
+          std::string val = x;
+          std::transform(val.begin(), val.end(), val.begin(), ::tolower);
+          if (val == "ok") {
+            lv_obj_set_style_text_color(id(lbl_plant_monstera_status), lv_color_hex(0x10B981), LV_PART_MAIN);
+          } else if (val == "low") {
+            lv_obj_set_style_text_color(id(lbl_plant_monstera_status), lv_color_hex(0xEF4444), LV_PART_MAIN);
+          } else if (val == "high") {
+            lv_obj_set_style_text_color(id(lbl_plant_monstera_status), lv_color_hex(0x3B82F6), LV_PART_MAIN);
+          } else {
+            lv_obj_set_style_text_color(id(lbl_plant_monstera_status), lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+          }
 
   # Nerve Plant
   - platform: homeassistant
@@ -45,7 +105,19 @@ text_sensor:
     entity_id: plant.nerve_plant
     attribute: moisture_status
     on_value:
-      - lambda: lv_label_set_text(id(lbl_plant_nerve_plant_status), x.c_str());
+      - lambda: |-
+          lv_label_set_text(id(lbl_plant_nerve_plant_status), x.c_str());
+          std::string val = x;
+          std::transform(val.begin(), val.end(), val.begin(), ::tolower);
+          if (val == "ok") {
+            lv_obj_set_style_text_color(id(lbl_plant_nerve_plant_status), lv_color_hex(0x10B981), LV_PART_MAIN);
+          } else if (val == "low") {
+            lv_obj_set_style_text_color(id(lbl_plant_nerve_plant_status), lv_color_hex(0xEF4444), LV_PART_MAIN);
+          } else if (val == "high") {
+            lv_obj_set_style_text_color(id(lbl_plant_nerve_plant_status), lv_color_hex(0x3B82F6), LV_PART_MAIN);
+          } else {
+            lv_obj_set_style_text_color(id(lbl_plant_nerve_plant_status), lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+          }
 
   # Aglaonema
   - platform: homeassistant
@@ -53,7 +125,19 @@ text_sensor:
     entity_id: plant.aglaonema
     attribute: moisture_status
     on_value:
-      - lambda: lv_label_set_text(id(lbl_plant_aglaonema_status), x.c_str());
+      - lambda: |-
+          lv_label_set_text(id(lbl_plant_aglaonema_status), x.c_str());
+          std::string val = x;
+          std::transform(val.begin(), val.end(), val.begin(), ::tolower);
+          if (val == "ok") {
+            lv_obj_set_style_text_color(id(lbl_plant_aglaonema_status), lv_color_hex(0x10B981), LV_PART_MAIN);
+          } else if (val == "low") {
+            lv_obj_set_style_text_color(id(lbl_plant_aglaonema_status), lv_color_hex(0xEF4444), LV_PART_MAIN);
+          } else if (val == "high") {
+            lv_obj_set_style_text_color(id(lbl_plant_aglaonema_status), lv_color_hex(0x3B82F6), LV_PART_MAIN);
+          } else {
+            lv_obj_set_style_text_color(id(lbl_plant_aglaonema_status), lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+          }
 
   # Croton
   - platform: homeassistant
@@ -61,7 +145,19 @@ text_sensor:
     entity_id: plant.croton
     attribute: moisture_status
     on_value:
-      - lambda: lv_label_set_text(id(lbl_plant_croton_status), x.c_str());
+      - lambda: |-
+          lv_label_set_text(id(lbl_plant_croton_status), x.c_str());
+          std::string val = x;
+          std::transform(val.begin(), val.end(), val.begin(), ::tolower);
+          if (val == "ok") {
+            lv_obj_set_style_text_color(id(lbl_plant_croton_status), lv_color_hex(0x10B981), LV_PART_MAIN);
+          } else if (val == "low") {
+            lv_obj_set_style_text_color(id(lbl_plant_croton_status), lv_color_hex(0xEF4444), LV_PART_MAIN);
+          } else if (val == "high") {
+            lv_obj_set_style_text_color(id(lbl_plant_croton_status), lv_color_hex(0x3B82F6), LV_PART_MAIN);
+          } else {
+            lv_obj_set_style_text_color(id(lbl_plant_croton_status), lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+          }
 
   # Elephant Ears
   - platform: homeassistant
@@ -69,7 +165,19 @@ text_sensor:
     entity_id: plant.elephant_ears
     attribute: moisture_status
     on_value:
-      - lambda: lv_label_set_text(id(lbl_plant_elephant_ears_status), x.c_str());
+      - lambda: |-
+          lv_label_set_text(id(lbl_plant_elephant_ears_status), x.c_str());
+          std::string val = x;
+          std::transform(val.begin(), val.end(), val.begin(), ::tolower);
+          if (val == "ok") {
+            lv_obj_set_style_text_color(id(lbl_plant_elephant_ears_status), lv_color_hex(0x10B981), LV_PART_MAIN);
+          } else if (val == "low") {
+            lv_obj_set_style_text_color(id(lbl_plant_elephant_ears_status), lv_color_hex(0xEF4444), LV_PART_MAIN);
+          } else if (val == "high") {
+            lv_obj_set_style_text_color(id(lbl_plant_elephant_ears_status), lv_color_hex(0x3B82F6), LV_PART_MAIN);
+          } else {
+            lv_obj_set_style_text_color(id(lbl_plant_elephant_ears_status), lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+          }
 
 sensor:
   # Spider Plant
