@@ -31,6 +31,7 @@ logger:
   level: info
   logs:
     lvgl: info
+    wifi: info
   hardware_uart: UART0
 
 web_server:
