@@ -457,6 +457,7 @@ switch:
              int g = (int)(id(g_nina2_rms_c1_g) + ratio * (id(g_nina2_rms_c2_g) - id(g_nina2_rms_c1_g)));
              int b = (int)(id(g_nina2_rms_c1_b) + ratio * (id(g_nina2_rms_c2_b) - id(g_nina2_rms_c1_b)));
              lv_obj_set_style_text_color(id(lbl_nina2_rms), lv_color_make(r, g, b), LV_PART_MAIN);
+             lv_obj_set_style_text_color(id(lbl_cmb_nina2_rms), lv_color_make(r, g, b), LV_PART_MAIN);
           }
           if (!isnan(id(nina2_hfr).state)) {
              float x = id(nina2_hfr).state;
@@ -469,6 +470,7 @@ switch:
              int g = (int)(id(g_nina2_hfr_c1_g) + ratio * (id(g_nina2_hfr_c2_g) - id(g_nina2_hfr_c1_g)));
              int b = (int)(id(g_nina2_hfr_c1_b) + ratio * (id(g_nina2_hfr_c2_b) - id(g_nina2_hfr_c1_b)));
              lv_obj_set_style_text_color(id(lbl_nina2_hfr), lv_color_make(r, g, b), LV_PART_MAIN);
+             lv_obj_set_style_text_color(id(lbl_cmb_nina2_hfr), lv_color_make(r, g, b), LV_PART_MAIN);
           }
           if (!isnan(id(nina2_exposure_num).state)) {
              float x = id(nina2_exposure_num).state;
@@ -481,6 +483,7 @@ switch:
              int g = (int)(id(g_nina2_exp_num_c1_g) + ratio * (id(g_nina2_exp_num_c2_g) - id(g_nina2_exp_num_c1_g)));
              int b = (int)(id(g_nina2_exp_num_c1_b) + ratio * (id(g_nina2_exp_num_c2_b) - id(g_nina2_exp_num_c1_b)));
              lv_obj_set_style_text_color(id(lbl_nina2_exp_num), lv_color_make(r, g, b), LV_PART_MAIN);
+             lv_obj_set_style_text_color(id(lbl_cmb_nina2_exp_num), lv_color_make(r, g, b), LV_PART_MAIN);
           }
           if (!isnan(id(nina2_exposure_time).state)) {
              float x = id(nina2_exposure_time).state;
@@ -493,6 +496,7 @@ switch:
              int g = (int)(id(g_nina2_exp_time_c1_g) + ratio * (id(g_nina2_exp_time_c2_g) - id(g_nina2_exp_time_c1_g)));
              int b = (int)(id(g_nina2_exp_time_c1_b) + ratio * (id(g_nina2_exp_time_c2_b) - id(g_nina2_exp_time_c1_b)));
              lv_obj_set_style_text_color(id(lbl_nina2_exp_time), lv_color_make(r, g, b), LV_PART_MAIN);
+             lv_obj_set_style_text_color(id(lbl_cmb_nina2_exp_time), lv_color_make(r, g, b), LV_PART_MAIN);
           }
           if (!isnan(id(nina2_camera_temp).state)) {
              float x = id(nina2_camera_temp).state;
@@ -517,6 +521,7 @@ switch:
              int g = (int)(id(g_nina2_stars_c1_g) + ratio * (id(g_nina2_stars_c2_g) - id(g_nina2_stars_c1_g)));
              int b = (int)(id(g_nina2_stars_c1_b) + ratio * (id(g_nina2_stars_c2_b) - id(g_nina2_stars_c1_b)));
              lv_obj_set_style_text_color(id(lbl_nina2_stars), lv_color_make(r, g, b), LV_PART_MAIN);
+             lv_obj_set_style_text_color(id(lbl_cmb_nina2_stars), lv_color_make(r, g, b), LV_PART_MAIN);
           }
           if (!isnan(id(nina2_saturated_pixels).state)) {
              float x = id(nina2_saturated_pixels).state;
@@ -542,6 +547,7 @@ switch:
              int g = (int)(id(g_nina3_rms_c1_g) + ratio * (id(g_nina3_rms_c2_g) - id(g_nina3_rms_c1_g)));
              int b = (int)(id(g_nina3_rms_c1_b) + ratio * (id(g_nina3_rms_c2_b) - id(g_nina3_rms_c1_b)));
              lv_obj_set_style_text_color(id(lbl_nina3_rms), lv_color_make(r, g, b), LV_PART_MAIN);
+             lv_obj_set_style_text_color(id(lbl_cmb_nina3_rms), lv_color_make(r, g, b), LV_PART_MAIN);
           }
           if (!isnan(id(nina3_hfr).state)) {
              float x = id(nina3_hfr).state;
@@ -554,6 +560,7 @@ switch:
              int g = (int)(id(g_nina3_hfr_c1_g) + ratio * (id(g_nina3_hfr_c2_g) - id(g_nina3_hfr_c1_g)));
              int b = (int)(id(g_nina3_hfr_c1_b) + ratio * (id(g_nina3_hfr_c2_b) - id(g_nina3_hfr_c1_b)));
              lv_obj_set_style_text_color(id(lbl_nina3_hfr), lv_color_make(r, g, b), LV_PART_MAIN);
+             lv_obj_set_style_text_color(id(lbl_cmb_nina3_hfr), lv_color_make(r, g, b), LV_PART_MAIN);
           }
           if (!isnan(id(nina3_exposure_num).state)) {
              float x = id(nina3_exposure_num).state;
@@ -566,6 +573,7 @@ switch:
              int g = (int)(id(g_nina3_exp_num_c1_g) + ratio * (id(g_nina3_exp_num_c2_g) - id(g_nina3_exp_num_c1_g)));
              int b = (int)(id(g_nina3_exp_num_c1_b) + ratio * (id(g_nina3_exp_num_c2_b) - id(g_nina3_exp_num_c1_b)));
              lv_obj_set_style_text_color(id(lbl_nina3_exp_num), lv_color_make(r, g, b), LV_PART_MAIN);
+             lv_obj_set_style_text_color(id(lbl_cmb_nina3_exp_num), lv_color_make(r, g, b), LV_PART_MAIN);
           }
           if (!isnan(id(nina3_exposure_time).state)) {
              float x = id(nina3_exposure_time).state;
@@ -578,6 +586,7 @@ switch:
              int g = (int)(id(g_nina3_exp_time_c1_g) + ratio * (id(g_nina3_exp_time_c2_g) - id(g_nina3_exp_time_c1_g)));
              int b = (int)(id(g_nina3_exp_time_c1_b) + ratio * (id(g_nina3_exp_time_c2_b) - id(g_nina3_exp_time_c1_b)));
              lv_obj_set_style_text_color(id(lbl_nina3_exp_time), lv_color_make(r, g, b), LV_PART_MAIN);
+             lv_obj_set_style_text_color(id(lbl_cmb_nina3_exp_time), lv_color_make(r, g, b), LV_PART_MAIN);
           }
           if (!isnan(id(nina3_camera_temp).state)) {
              float x = id(nina3_camera_temp).state;
@@ -602,6 +611,7 @@ switch:
              int g = (int)(id(g_nina3_stars_c1_g) + ratio * (id(g_nina3_stars_c2_g) - id(g_nina3_stars_c1_g)));
              int b = (int)(id(g_nina3_stars_c1_b) + ratio * (id(g_nina3_stars_c2_b) - id(g_nina3_stars_c1_b)));
              lv_obj_set_style_text_color(id(lbl_nina3_stars), lv_color_make(r, g, b), LV_PART_MAIN);
+             lv_obj_set_style_text_color(id(lbl_cmb_nina3_stars), lv_color_make(r, g, b), LV_PART_MAIN);
           }
           if (!isnan(id(nina3_saturated_pixels).state)) {
              float x = id(nina3_saturated_pixels).state;
@@ -630,6 +640,11 @@ switch:
           lv_obj_set_style_text_color(id(lbl_nina2_cam_temp), white, LV_PART_MAIN);
           lv_obj_set_style_text_color(id(lbl_nina2_stars), white, LV_PART_MAIN);
           lv_obj_set_style_text_color(id(lbl_nina2_sat_px), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_cmb_nina2_rms), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_cmb_nina2_hfr), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_cmb_nina2_exp_num), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_cmb_nina2_exp_time), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_cmb_nina2_stars), white, LV_PART_MAIN);
           // NINA3 reset to white
           lv_obj_set_style_text_color(id(lbl_nina3_rms), white, LV_PART_MAIN);
           lv_obj_set_style_text_color(id(lbl_nina3_hfr), white, LV_PART_MAIN);
@@ -638,6 +653,11 @@ switch:
           lv_obj_set_style_text_color(id(lbl_nina3_cam_temp), white, LV_PART_MAIN);
           lv_obj_set_style_text_color(id(lbl_nina3_stars), white, LV_PART_MAIN);
           lv_obj_set_style_text_color(id(lbl_nina3_sat_px), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_cmb_nina3_rms), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_cmb_nina3_hfr), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_cmb_nina3_exp_num), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_cmb_nina3_exp_time), white, LV_PART_MAIN);
+          lv_obj_set_style_text_color(id(lbl_cmb_nina3_stars), white, LV_PART_MAIN);
 
 select:
   - platform: template
@@ -704,6 +724,9 @@ select:
           if (id(main_container) != nullptr) {
               lv_obj_set_style_bg_color(id(main_container), bg_c, LV_PART_MAIN);
           }
+          if (id(combined_nina_container) != nullptr) {
+              lv_obj_set_style_bg_color(id(combined_nina_container), bg_c, LV_PART_MAIN);
+          }
           if (id(nina2_container) != nullptr) {
               lv_obj_set_style_bg_color(id(nina2_container), bg_c, LV_PART_MAIN);
           }
@@ -727,6 +750,10 @@ select:
           apply_theme(id(card_system), card_c, border_c);
           apply_theme(id(card_ambient), card_c, border_c);
           apply_theme(id(card_power), card_c, border_c);
+          
+          // Combined NINA page cards
+          apply_theme(id(card_cmb_nina2), card_c, border_c);
+          apply_theme(id(card_cmb_nina3), card_c, border_c);
           
           // NINA2 page cells
           apply_theme(id(nina2_cell_target), card_c, border_c);
@@ -773,6 +800,7 @@ select:
     icon: "mdi:layers-search"
     options:
       - "Main Dashboard"
+      - "Combined NINA"
       - "NINA Instance 2"
       - "NINA Instance 3"
       - "Plant Monitor"
@@ -782,16 +810,19 @@ select:
              id(g_current_page) = 0;
              lv_scr_load_anim(id(main_page)->obj, LV_SCR_LOAD_ANIM_MOVE_LEFT, 300, 0, false);
              id(refresh_main_page).execute();
-          } else if (x == "NINA Instance 2") {
+          } else if (x == "Combined NINA") {
              id(g_current_page) = 1;
+             lv_scr_load_anim(id(combined_nina_page)->obj, LV_SCR_LOAD_ANIM_MOVE_LEFT, 300, 0, false);
+          } else if (x == "NINA Instance 2") {
+             id(g_current_page) = 2;
              lv_scr_load_anim(id(nina2_page)->obj, LV_SCR_LOAD_ANIM_MOVE_LEFT, 300, 0, false);
              id(refresh_nina2_page).execute();
           } else if (x == "NINA Instance 3") {
-             id(g_current_page) = 2;
+             id(g_current_page) = 3;
              lv_scr_load_anim(id(nina3_page)->obj, LV_SCR_LOAD_ANIM_MOVE_LEFT, 300, 0, false);
              id(refresh_nina3_page).execute();
           } else if (x == "Plant Monitor") {
-             id(g_current_page) = 3;
+             id(g_current_page) = 4;
              lv_scr_load_anim(id(plants_page)->obj, LV_SCR_LOAD_ANIM_MOVE_LEFT, 300, 0, false);
              id(refresh_plants_page).execute();
           }
