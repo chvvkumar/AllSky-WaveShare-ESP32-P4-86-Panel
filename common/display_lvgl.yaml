@@ -542,7 +542,7 @@ lvgl:
                                layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER, flex_align_cross: CENTER }
                                widgets:
                                  - label: { text: "RMS", styles: style_unit_small }
-                                 - label: { id: lbl_cmb_nina2_rms, text: "--", text_font: font_roboto_hero, text_color: 0xFFFFFF }
+                                 - label: { id: lbl_cmb_nina2_rms, text: "--", styles: style_value_hero }
                            # Exp Num
                            - obj:
                                height: 100%
@@ -623,7 +623,7 @@ lvgl:
                                layout: { type: flex, flex_flow: COLUMN, flex_align_main: CENTER, flex_align_cross: CENTER }
                                widgets:
                                  - label: { text: "RMS", styles: style_unit_small }
-                                 - label: { id: lbl_cmb_nina3_rms, text: "--", text_font: font_roboto_hero, text_color: 0xFFFFFF }
+                                 - label: { id: lbl_cmb_nina3_rms, text: "--", styles: style_value_hero }
                            # Exp Num
                            - obj:
                                height: 100%
