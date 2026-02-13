@@ -11,6 +11,11 @@
 *.ihex
 *.iHex
 
+.managed_components/
+*.managed_components/
+managed_components/
+managed_components/*
+
 # Arduino build directories
 build/
 .build/
