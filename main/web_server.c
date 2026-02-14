@@ -9,37 +9,78 @@
 
 static const char *TAG = "web_server";
 
-static const char *HTML_CONTENT = 
+static const char *HTML_CONTENT =
 "<!DOCTYPE html><html><head><meta name='viewport' content='width=device-width, initial-scale=1'><title>Device Config</title>"
-"<style>body{font-family:Arial;padding:20px;max-width:600px;margin:auto}input{width:100%;padding:8px;margin:5px 0;box-sizing:border-box}button{width:100%;padding:10px;background:#007bff;color:white;border:none;cursor:pointer}button:hover{background:#0056b3}.group{margin-bottom:15px}label{font-weight:bold}</style>"
-"</head><body><h2>Device Configuration</h2>"
-"<form id='cfgForm'>"
-"<div class='group'><label>WiFi SSID</label><input type='text' id='ssid' name='ssid'></div>"
-"<div class='group'><label>WiFi Password</label><input type='password' id='pass' name='pass'></div>"
-"<div class='group'><label>NINA API URL 1</label><input type='text' id='url1' name='url1'></div>"
-"<div class='group'><label>NINA API URL 2</label><input type='text' id='url2' name='url2'></div>"
-"<div class='group'><label>NTP Server</label><input type='text' id='ntp' name='ntp'></div>"
-"<button type='button' onclick='save()'>Save & Reboot</button>"
-"</form>"
+"<style>"
+":root{--bg-color:#121212;--surface-color:#1e1e1e;--primary-color:#bb86fc;--primary-variant:#3700b3;--secondary-color:#03dac6;--error-color:#cf6679;--text-primary:#ffffff;--text-secondary:#b0bec5;--border-color:#333;}"
+"body{font-family:'Roboto',Arial,sans-serif;background-color:var(--bg-color);color:var(--text-primary);margin:0;padding:20px;display:flex;justify-content:center;}"
+".container{width:100%;max-width:600px;}"
+"h2{color:var(--text-primary);text-align:center;margin-bottom:24px;}"
+"h3{color:var(--secondary-color);margin-top:0;font-size:1.1rem;border-bottom:1px solid var(--border-color);padding-bottom:10px;}"
+".card{background-color:var(--surface-color);border-radius:8px;padding:16px;margin-bottom:16px;box-shadow:0 4px 6px rgba(0,0,0,0.3);}"
+".group{margin-bottom:16px;}"
+"label{display:block;margin-bottom:8px;color:var(--text-secondary);font-size:0.9rem;}"
+"input[type='text'],input[type='password']{width:100%;padding:12px;background-color:#2c2c2c;border:1px solid var(--border-color);border-radius:4px;color:var(--text-primary);box-sizing:border-box;font-size:1rem;transition:border-color 0.3s;}"
+"input[type='text']:focus,input[type='password']:focus{outline:none;border-color:var(--primary-color);}"
+".btn{width:100%;padding:12px;border:none;border-radius:4px;font-size:1rem;font-weight:bold;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:opacity 0.3s;}"
+".btn-primary{background-color:var(--primary-color);color:#000;}"
+".btn-danger{background-color:var(--error-color);color:#000;margin-top:16px;}"
+".btn:hover{opacity:0.9;}"
+".filter-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #333;}"
+".filter-row:last-child{border-bottom:none;}"
+".filter-name{color:var(--text-primary);}"
+".color-input{width:60px;height:40px;border:none;border-radius:4px;cursor:pointer;background:none;padding:0;}"
+"p{color:var(--text-secondary);}"
+"</style>"
+"</head><body><div class='container'><h2>Device Configuration</h2>"
+"<div class='card'><h3>Network Settings</h3>"
+"<div class='group'><label>WiFi SSID</label><input type='text' id='ssid' placeholder='Enter SSID'></div>"
+"<div class='group'><label>WiFi Password</label><input type='password' id='pass' placeholder='Enter Password'></div>"
+"<div class='group'><label>NTP Server</label><input type='text' id='ntp' placeholder='pool.ntp.org'></div></div>"
+"<div class='card'><h3>NINA API</h3>"
+"<div class='group'><label>NINA API URL 1</label><input type='text' id='url1' placeholder='http://...'></div>"
+"<div class='group'><label>NINA API URL 2</label><input type='text' id='url2' placeholder='http://...'></div></div>"
+"<div class='card'><h3>Filter Colors</h3>"
+"<p style='font-size:0.9rem;margin-bottom:16px'>Configure colors for each filter. The exposure arc will be colored based on the active filter.</p>"
+"<div id='filterColors'></div></div>"
+"<button class='btn btn-primary' onclick='save()'>Save & Reboot</button>"
+"<button class='btn btn-danger' onclick='factoryReset()'>Factory Reset</button></div>"
 "<script>"
+"let filterColorsObj={};"
 "fetch('/api/config').then(r=>r.json()).then(d=>{"
-"document.getElementById('ssid').value=d.ssid;"
-"document.getElementById('pass').value=d.pass;"
-"document.getElementById('url1').value=d.url1;"
-"document.getElementById('url2').value=d.url2;"
-"document.getElementById('ntp').value=d.ntp;"
+"document.getElementById('ssid').value=d.ssid||'';"
+"document.getElementById('pass').value=d.pass||'';"
+"document.getElementById('url1').value=d.url1||'';"
+"document.getElementById('url2').value=d.url2||'';"
+"document.getElementById('ntp').value=d.ntp||'';"
+"try{filterColorsObj=JSON.parse(d.filter_colors||'{}');}catch(e){filterColorsObj={};}"
+"renderFilterColors();"
 "});"
-"function save(){"
-"const data = {"
-"ssid:document.getElementById('ssid').value,"
-"pass:document.getElementById('pass').value,"
-"url1:document.getElementById('url1').value,"
-"url2:document.getElementById('url2').value,"
-"ntp:document.getElementById('ntp').value"
-"};"
-"fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})"
-".then(r=>{if(r.ok){alert('Saved! Rebooting...');fetch('/api/reboot',{method:'POST'});}else{alert('Error saving');}});"
+"function renderFilterColors(){"
+"const container=document.getElementById('filterColors');"
+"container.innerHTML='';"
+"const filters=Object.keys(filterColorsObj).sort();"
+"if(filters.length===0){container.innerHTML='<p style=\"text-align:center;font-style:italic\">No filters configured yet.</p>';return;}"
+"filters.forEach(f=>{"
+"const row=document.createElement('div');"
+"row.className='filter-row';"
+"row.innerHTML=`<span class='filter-name'>${f}</span><input type='color' class='color-input' value='${filterColorsObj[f]}' onchange='updateFilterColor(\"${f}\",this.value)'>`;"
+"container.appendChild(row);"
+"});"
 "}"
+"function updateFilterColor(name,color){filterColorsObj[name]=color;}"
+"function save(){"
+"const btn=document.querySelector('.btn-primary');const originalText=btn.innerText;btn.innerText='Saving...';btn.disabled=true;"
+"const data={ssid:document.getElementById('ssid').value,pass:document.getElementById('pass').value,url1:document.getElementById('url1').value,url2:document.getElementById('url2').value,ntp:document.getElementById('ntp').value,filter_colors:JSON.stringify(filterColorsObj)};"
+"fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})"
+".then(r=>{if(r.ok){alert('Saved! Rebooting...');fetch('/api/reboot',{method:'POST'});}else{alert('Error saving');btn.innerText=originalText;btn.disabled=false;}}).catch(()=>{alert('Connection failed');btn.innerText=originalText;btn.disabled=false;});"
+"}"
+"function factoryReset(){"
+"if(confirm('WARNING: This will erase ALL settings and reboot the device.\\n\\nAre you sure you want to continue?')){"
+"if(confirm('This action cannot be undone!\\n\\nClick OK to proceed with factory reset.')){"
+"fetch('/api/factory-reset',{method:'POST'})"
+".then(r=>{if(r.ok){alert('Factory reset complete! Device will reboot now.');}else{alert('Error performing factory reset');}});"
+"}}}"
 "</script></body></html>";
 
 // Handler for root URL
@@ -64,6 +105,7 @@ static esp_err_t config_get_handler(httpd_req_t *req)
     cJSON_AddStringToObject(root, "url1", cfg->api_url_1);
     cJSON_AddStringToObject(root, "url2", cfg->api_url_2);
     cJSON_AddStringToObject(root, "ntp", cfg->ntp_server);
+    cJSON_AddStringToObject(root, "filter_colors", cfg->filter_colors);
     
     const char *json_str = cJSON_PrintUnformatted(root);
     if (json_str == NULL) {
@@ -139,6 +181,12 @@ static esp_err_t config_post_handler(httpd_req_t *req)
         cfg.ntp_server[sizeof(cfg.ntp_server) - 1] = '\0';
     }
 
+    cJSON *filter_colors = cJSON_GetObjectItem(root, "filter_colors");
+    if (cJSON_IsString(filter_colors)) {
+        strncpy(cfg.filter_colors, filter_colors->valuestring, sizeof(cfg.filter_colors) - 1);
+        cfg.filter_colors[sizeof(cfg.filter_colors) - 1] = '\0';
+    }
+
     app_config_save(&cfg);
     cJSON_Delete(root);
 
@@ -152,6 +200,24 @@ static esp_err_t reboot_post_handler(httpd_req_t *req)
     httpd_resp_send(req, "Rebooting...", HTTPD_RESP_USE_STRLEN);
     // Delay slightly to let the response go out
     vTaskDelay(pdMS_TO_TICKS(100));
+    esp_restart();
+    return ESP_OK;
+}
+
+// Handler for factory reset
+static esp_err_t factory_reset_post_handler(httpd_req_t *req)
+{
+    ESP_LOGW(TAG, "Factory reset requested via web interface");
+    httpd_resp_send(req, "Factory reset initiated...", HTTPD_RESP_USE_STRLEN);
+
+    // Delay slightly to let the response go out
+    vTaskDelay(pdMS_TO_TICKS(100));
+
+    // Perform factory reset
+    app_config_factory_reset();
+
+    // Reboot the device
+    vTaskDelay(pdMS_TO_TICKS(500));
     esp_restart();
     return ESP_OK;
 }
@@ -187,13 +253,21 @@ void start_web_server(void)
         };
         httpd_register_uri_handler(server, &uri_post_config);
 
-         httpd_uri_t uri_post_reboot = {
+        httpd_uri_t uri_post_reboot = {
             .uri       = "/api/reboot",
             .method    = HTTP_POST,
             .handler   = reboot_post_handler,
             .user_ctx  = NULL
         };
         httpd_register_uri_handler(server, &uri_post_reboot);
+
+        httpd_uri_t uri_post_factory_reset = {
+            .uri       = "/api/factory-reset",
+            .method    = HTTP_POST,
+            .handler   = factory_reset_post_handler,
+            .user_ctx  = NULL
+        };
+        httpd_register_uri_handler(server, &uri_post_factory_reset);
 
         ESP_LOGI(TAG, "Web server started");
     } else {

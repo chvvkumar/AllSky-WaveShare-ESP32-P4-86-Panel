@@ -2,11 +2,18 @@
 #include "nvs_flash.h"
 #include "nvs.h"
 #include "esp_log.h"
+#include "cJSON.h"
 #include <string.h>
+#include <stdlib.h>
 
 static const char *TAG = "app_config";
 static app_config_t s_config;
 static const char *NVS_NAMESPACE = "app_conf";
+
+// Default filter color mappings (matching common LRGB + Narrowband filters)
+static const char *DEFAULT_FILTER_COLORS =
+    "{\"L\":\"#60a5fa\",\"R\":\"#ef4444\",\"G\":\"#10b981\",\"B\":\"#3b82f6\","
+    "\"Ha\":\"#f43f5e\",\"Sii\":\"#a855f7\",\"Oiii\":\"#06b6d4\"}";
 
 void app_config_init(void) {
     nvs_handle_t my_handle;
@@ -20,6 +27,7 @@ void app_config_init(void) {
         strcpy(s_config.api_url_1, "http://astromele2.lan:1888/v2/api/");
         strcpy(s_config.api_url_2, "http://astromele3.lan:1888/v2/api/");
         strcpy(s_config.ntp_server, "pool.ntp.org");
+        strcpy(s_config.filter_colors, DEFAULT_FILTER_COLORS);
         return;
     }
 
@@ -33,10 +41,19 @@ void app_config_init(void) {
         strcpy(s_config.api_url_1, "http://astromele2.lan:1888/v2/api/");
         strcpy(s_config.api_url_2, "http://astromele3.lan:1888/v2/api/");
         strcpy(s_config.ntp_server, "pool.ntp.org");
-        
+        strcpy(s_config.filter_colors, DEFAULT_FILTER_COLORS);
+
         // Save defaults so we have them next time
         nvs_set_blob(my_handle, "config", &s_config, sizeof(app_config_t));
         nvs_commit(my_handle);
+    } else {
+        // Config loaded successfully, but check if filter_colors is valid
+        if (s_config.filter_colors[0] == '\0') {
+            ESP_LOGI(TAG, "Filter colors empty, initializing with defaults");
+            strcpy(s_config.filter_colors, DEFAULT_FILTER_COLORS);
+            nvs_set_blob(my_handle, "config", &s_config, sizeof(app_config_t));
+            nvs_commit(my_handle);
+        }
     }
 
     nvs_close(my_handle);
@@ -65,4 +82,64 @@ void app_config_save(const app_config_t *config) {
         nvs_commit(my_handle);
     }
     nvs_close(my_handle);
+}
+
+void app_config_factory_reset(void) {
+    ESP_LOGW(TAG, "Performing factory reset - erasing NVS partition");
+
+    // Erase the entire NVS partition
+    esp_err_t err = nvs_flash_erase();
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to erase NVS: %s", esp_err_to_name(err));
+        return;
+    }
+
+    // Re-initialize NVS
+    err = nvs_flash_init();
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to re-initialize NVS: %s", esp_err_to_name(err));
+        return;
+    }
+
+    ESP_LOGI(TAG, "Factory reset complete - all settings erased");
+
+    // Reinitialize config with defaults
+    app_config_init();
+}
+
+/**
+ * @brief Get the color for a specific filter
+ * @param filter_name Name of the filter (e.g., "Ha", "L", "R")
+ * @return 32-bit color value (0xRRGGBB) or default blue if not found
+ */
+uint32_t app_config_get_filter_color(const char *filter_name) {
+    if (!filter_name || filter_name[0] == '\0' || strcmp(filter_name, "--") == 0) {
+        return 0x3b82f6;  // Default blue for unknown filter
+    }
+
+    // Parse the filter_colors JSON string
+    cJSON *root = cJSON_Parse(s_config.filter_colors);
+    if (!root) {
+        ESP_LOGW(TAG, "Failed to parse filter colors JSON, using default");
+        return 0x3b82f6;  // Default blue
+    }
+
+    // Look up the filter by name
+    cJSON *color_item = cJSON_GetObjectItem(root, filter_name);
+    uint32_t color = 0x3b82f6;  // Default blue
+
+    if (color_item && cJSON_IsString(color_item) && color_item->valuestring) {
+        // Parse hex color string (e.g., "#60a5fa" or "60a5fa")
+        const char *hex = color_item->valuestring;
+        if (hex[0] == '#') hex++;  // Skip the '#' if present
+
+        // Convert hex string to integer
+        color = (uint32_t)strtol(hex, NULL, 16);
+        ESP_LOGD(TAG, "Filter '%s' -> color 0x%06x", filter_name, (unsigned int)color);
+    } else {
+        ESP_LOGD(TAG, "Filter '%s' not found in config, using default blue", filter_name);
+    }
+
+    cJSON_Delete(root);
+    return color;
 }

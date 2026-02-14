@@ -2,12 +2,21 @@
 
 #include <stdbool.h>
 
+#define MAX_FILTERS 10
+
+// Filter information
+typedef struct {
+    char name[32];      // Filter name (e.g., "Ha", "L", "R", "G", "B")
+    int id;             // Filter position/ID
+} nina_filter_t;
+
 // NINA client data structure
 typedef struct {
     bool connected;
     char status[32];
     char target_name[64];
     char profile_name[64];
+    char telescope_name[64];
     
     struct {
         float temp;
@@ -45,6 +54,10 @@ typedef struct {
     // Mount
     char meridian_flip[16];
     float rotator_angle;
+
+    // Available filters from filter wheel
+    nina_filter_t filters[MAX_FILTERS];
+    int filter_count;
 } nina_client_t;
 
 // Fetch data from a NINA instance

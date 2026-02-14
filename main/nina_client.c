@@ -190,7 +190,7 @@ static void fetch_camera_info_robust(const char *base_url, nina_client_t *data) 
 
 /**
  * @brief Fetch filter wheel info - ALWAYS WORKS
- * Provides: Current filter name from hardware
+ * Provides: Current filter name from hardware AND available filters list
  */
 static void fetch_filter_robust(const char *base_url, nina_client_t *data) {
     char url[256];
@@ -201,6 +201,7 @@ static void fetch_filter_robust(const char *base_url, nina_client_t *data) {
 
     cJSON *response = cJSON_GetObjectItem(json, "Response");
     if (response) {
+        // Get current filter
         cJSON *selectedFilter = cJSON_GetObjectItem(response, "SelectedFilter");
         if (selectedFilter) {
             cJSON *name = cJSON_GetObjectItem(selectedFilter, "Name");
@@ -208,6 +209,30 @@ static void fetch_filter_robust(const char *base_url, nina_client_t *data) {
                 strncpy(data->current_filter, name->valuestring, sizeof(data->current_filter) - 1);
                 ESP_LOGI(TAG, "Filter (hardware): %s", data->current_filter);
             }
+        }
+
+        // Get available filters
+        cJSON *availableFilters = cJSON_GetObjectItem(response, "AvailableFilters");
+        if (availableFilters && cJSON_IsArray(availableFilters)) {
+            int count = cJSON_GetArraySize(availableFilters);
+            if (count > MAX_FILTERS) count = MAX_FILTERS;
+
+            data->filter_count = 0;
+            for (int i = 0; i < count; i++) {
+                cJSON *filter = cJSON_GetArrayItem(availableFilters, i);
+                if (filter) {
+                    cJSON *filter_name = cJSON_GetObjectItem(filter, "Name");
+                    cJSON *filter_id = cJSON_GetObjectItem(filter, "Id");
+
+                    if (filter_name && filter_name->valuestring) {
+                        strncpy(data->filters[i].name, filter_name->valuestring,
+                                sizeof(data->filters[i].name) - 1);
+                        data->filters[i].id = filter_id ? filter_id->valueint : i;
+                        data->filter_count++;
+                    }
+                }
+            }
+            ESP_LOGI(TAG, "Found %d available filters", data->filter_count);
         }
     }
     cJSON_Delete(json);
@@ -233,6 +258,13 @@ static void fetch_image_history_robust(const char *base_url, nina_client_t *data
             if (target && target->valuestring) {
                 strncpy(data->target_name, target->valuestring, sizeof(data->target_name) - 1);
                 ESP_LOGI(TAG, "Target (from image): %s", data->target_name);
+            }
+
+            // Telescope name - from image metadata
+            cJSON *telescope = cJSON_GetObjectItem(latest, "TelescopeName");
+            if (telescope && telescope->valuestring) {
+                strncpy(data->telescope_name, telescope->valuestring, sizeof(data->telescope_name) - 1);
+                ESP_LOGI(TAG, "Telescope (from image): %s", data->telescope_name);
             }
 
             // Exposure time from last image (use as fallback if not exposing)
@@ -494,6 +526,7 @@ void nina_client_get_data(const char *base_url, nina_client_t *data) {
     strcpy(data->current_filter, "--");
     strcpy(data->time_remaining, "--");
     data->saturated_pixels = -1;
+    data->filter_count = 0;
 
     ESP_LOGI(TAG, "=== Fetching NINA data (robust method) ===");
 

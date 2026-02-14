@@ -6,6 +6,7 @@
 
 #include "nina_dashboard.h"
 #include "nina_client.h"
+#include "app_config.h"
 #include "lvgl.h"
 #include <stdio.h>
 #include <string.h>
@@ -41,7 +42,6 @@ static lv_obj_t * scr_dashboard = NULL;
 // Header Elements
 static lv_obj_t * lbl_instance_name;
 static lv_obj_t * lbl_target_name;
-static lv_obj_t * lbl_filter_value;
 
 // Exposure Arc/Circle
 static lv_obj_t * arc_exposure;
@@ -82,7 +82,7 @@ static void init_styles(void) {
     // Small Label Style (Uppercase, Bold, Gray)
     lv_style_init(&style_label_small);
     lv_style_set_text_color(&style_label_small, COLOR_LABEL);
-    lv_style_set_text_font(&style_label_small, &lv_font_montserrat_12);
+    lv_style_set_text_font(&style_label_small, &lv_font_montserrat_16);
     lv_style_set_text_letter_space(&style_label_small, 1);
 
     // Large Value Style
@@ -174,41 +174,34 @@ void create_nina_dashboard(lv_obj_t * parent) {
     /* ═══════════════════════════════════════════════════════════
      * HEADER (Row 0, Span 2 Columns)
      * ═══════════════════════════════════════════════════════════ */
-    lv_obj_t * header = lv_obj_create(main_cont);
-    lv_obj_remove_style_all(header);
-    lv_obj_add_style(header, &style_header_gradient, 0);
+    lv_obj_t * header = create_bento_box(main_cont);
     lv_obj_set_grid_cell(header, LV_GRID_ALIGN_STRETCH, 0, 2, LV_GRID_ALIGN_STRETCH, 0, 1);
     lv_obj_set_flex_flow(header, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(header, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_flex_align(header, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_CENTER);
 
-    // Left Side: Instance & Target
+    // Left Side: Telescope Name (positioned at bottom left)
     lv_obj_t * header_left = lv_obj_create(header);
     lv_obj_remove_style_all(header_left);
-    lv_obj_set_size(header_left, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+    lv_obj_set_size(header_left, LV_SIZE_CONTENT, LV_PCT(100));
     lv_obj_set_flex_flow(header_left, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(header_left, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-    
-    lbl_instance_name = create_small_label(header_left, "NINA - RIG 01");
+    lv_obj_set_flex_align(header_left, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
+
+    lbl_instance_name = lv_label_create(header_left);
     lv_obj_set_style_text_color(lbl_instance_name, COLOR_BLUE, 0);
-    
-    lbl_target_name = lv_label_create(header_left);
+    lv_obj_set_style_text_font(lbl_instance_name, &lv_font_montserrat_26, 0);
+    lv_label_set_text(lbl_instance_name, "NINA - RIG 01");
+
+    // Right Side: Target Name (centered vertically, right-justified)
+    lv_obj_t * header_right = lv_obj_create(header);
+    lv_obj_remove_style_all(header_right);
+    lv_obj_set_size(header_right, LV_SIZE_CONTENT, LV_PCT(100));
+    lv_obj_set_flex_flow(header_right, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(header_right, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_END);
+
+    lbl_target_name = lv_label_create(header_right);
     lv_obj_add_style(lbl_target_name, &style_value_large, 0);
     lv_obj_set_style_text_color(lbl_target_name, COLOR_TEXT, 0);
     lv_label_set_text(lbl_target_name, "M42 ORION");
-
-    // Right Side: Filter
-    lv_obj_t * header_right = lv_obj_create(header);
-    lv_obj_remove_style_all(header_right);
-    lv_obj_set_size(header_right, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-    lv_obj_set_flex_flow(header_right, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(header_right, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_END);
-    
-    create_small_label(header_right, "FILTER");
-    
-    lbl_filter_value = lv_label_create(header_right);
-    lv_obj_add_style(lbl_filter_value, &style_value_large, 0);
-    lv_obj_set_style_text_color(lbl_filter_value, COLOR_AMBER, 0);
-    lv_label_set_text(lbl_filter_value, "Ha 7nm");
 
     /* ═══════════════════════════════════════════════════════════
      * EXPOSURE DISPLAY (Col 0, Rows 1-2, Span 2 Rows)
@@ -250,7 +243,7 @@ void create_nina_dashboard(lv_obj_t * parent) {
     // Loop Count at Bottom (larger font)
     lbl_loop_count = lv_label_create(box_exposure);
     lv_obj_set_style_text_color(lbl_loop_count, COLOR_LABEL, 0);
-    lv_obj_set_style_text_font(lbl_loop_count, &lv_font_montserrat_20, 0);
+    lv_obj_set_style_text_font(lbl_loop_count, &lv_font_montserrat_24, 0);
     lv_label_set_text(lbl_loop_count, "12 / 30");
 
     /* ═══════════════════════════════════════════════════════════
@@ -286,7 +279,7 @@ void create_nina_dashboard(lv_obj_t * parent) {
     create_small_label(ra_cont, "RA");
     lbl_rms_ra_value = lv_label_create(ra_cont);
     lv_obj_set_style_text_color(lbl_rms_ra_value, COLOR_ROSE, 0);
-    lv_obj_set_style_text_font(lbl_rms_ra_value, &lv_font_montserrat_20, 0);
+    lv_obj_set_style_text_font(lbl_rms_ra_value, &lv_font_montserrat_24, 0);
     lv_label_set_text(lbl_rms_ra_value, "0.25\"");
 
     // DEC container
@@ -299,7 +292,7 @@ void create_nina_dashboard(lv_obj_t * parent) {
     create_small_label(dec_cont, "DEC");
     lbl_rms_dec_value = lv_label_create(dec_cont);
     lv_obj_set_style_text_color(lbl_rms_dec_value, COLOR_ROSE, 0);
-    lv_obj_set_style_text_font(lbl_rms_dec_value, &lv_font_montserrat_20, 0);
+    lv_obj_set_style_text_font(lbl_rms_dec_value, &lv_font_montserrat_24, 0);
     lv_label_set_text(lbl_rms_dec_value, "0.28\"");
 
     /* ═══════════════════════════════════════════════════════════
@@ -354,18 +347,19 @@ void create_nina_dashboard(lv_obj_t * parent) {
 void update_nina_dashboard_ui(const nina_client_t *data) {
     if (!scr_dashboard || !data) return;
 
-    // 1. Header - Instance Name & Target Name
-    if (data->profile_name[0] != '\0') {
-        lv_label_set_text(lbl_instance_name, data->profile_name);
+    // 1. Header - Instance Name (Telescope) & Target Name
+    if (data->telescope_name[0] != '\0') {
+        lv_label_set_text(lbl_instance_name, data->telescope_name);
     }
 
     if (data->target_name[0] != '\0') {
         lv_label_set_text(lbl_target_name, data->target_name);
     }
 
-    // 2. Filter
-    if (data->current_filter[0] != '\0') {
-        lv_label_set_text(lbl_filter_value, data->current_filter);
+    // 2. Filter - Update arc color based on current filter
+    if (data->current_filter[0] != '\0' && strcmp(data->current_filter, "--") != 0) {
+        uint32_t filter_color = app_config_get_filter_color(data->current_filter);
+        lv_obj_set_style_arc_color(arc_exposure, lv_color_hex(filter_color), LV_PART_INDICATOR);
     }
 
     // 3. Exposure Progress (Current Exposure Time)
