@@ -9,13 +9,13 @@ extern "C" {
 #include "nina_client.h"
 
 /**
- * @brief Initialize the Modern Bento XL Dashboard
+ * @brief Initialize the Bento NINA Dashboard (720x720px grid layout)
  * @param parent The parent LVGL object (usually the screen)
  */
 void create_nina_dashboard(lv_obj_t * parent);
 
 /**
- * @brief Update the dashboard metrics
+ * @brief Update the dashboard with live NINA client data
  * @param data Pointer to the latest NINA client data
  */
 void update_nina_dashboard_ui(const nina_client_t *data);

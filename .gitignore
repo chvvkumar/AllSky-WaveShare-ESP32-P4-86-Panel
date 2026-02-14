@@ -16,6 +16,7 @@
 managed_components/
 managed_components/*
 .esphome/
+common/secrets.yaml
 
 # Arduino build directories
 build/

@@ -1,7 +1,7 @@
 /**
  * @file nina_dashboard.c
- * @brief "Modern Bento XL" Layout implementation for 720x720 Displays
- * @version 2.0 (Reimagine)
+ * @brief "Bento" NINA Dashboard - High-density grid layout for 720x720 displays
+ * @version 3.0 (Bento Design System)
  */
 
 #include "nina_dashboard.h"
@@ -11,299 +11,393 @@
 #include <string.h>
 
 /*********************
- * DEFINES
+ * DESIGN CONSTANTS
  *********************/
-#define COLOR_BG        lv_color_hex(0x050505)
-#define COLOR_CARD      lv_color_hex(0x18181b) // Zinc 900
-#define COLOR_ACCENT    lv_color_hex(0x10b981) // Emerald 500
-#define COLOR_TEXT_MAIN lv_color_hex(0xFFFFFF)
-#define COLOR_TEXT_SUB  lv_color_hex(0xa1a1aa) // Zinc 400
-#define COLOR_GUIDE     lv_color_hex(0x60a5fa) // Blue 400
-#define COLOR_WARN      lv_color_hex(0xfbbf24) // Amber 400
-#define COLOR_ERR       lv_color_hex(0xf87171) // Red 400
+#define SCREEN_SIZE     720
+#define OUTER_PADDING   16
+#define GRID_GAP        16
+#define BENTO_RADIUS    24
 
-#define DASH_PAD 20
+// Color Palette
+#define COLOR_BG_MAIN   lv_color_hex(0x0a0a0a)  // Near Black
+#define COLOR_BENTO_BG  lv_color_hex(0x111111)  // Very Dark Gray
+#define COLOR_BENTO_BORDER lv_color_hex(0x222222)
+#define COLOR_LABEL     lv_color_hex(0x6b7280)  // Gray labels
+#define COLOR_TEXT      lv_color_hex(0xFFFFFF)  // White values
+#define COLOR_BLUE      lv_color_hex(0x60a5fa)  // Instance/Target
+#define COLOR_BLUE_DARK lv_color_hex(0x1e3a8a)  // Header gradient
+#define COLOR_AMBER     lv_color_hex(0xfbbf24)  // Filter
+#define COLOR_PROGRESS  lv_color_hex(0x3b82f6)  // Arc indicator
+#define COLOR_ROSE      lv_color_hex(0xf43f5e)  // RMS
+#define COLOR_EMERALD   lv_color_hex(0x10b981)  // HFR
+#define COLOR_YELLOW    lv_color_hex(0xeab308)  // Star icon
+#define COLOR_PURPLE    lv_color_hex(0xa855f7)  // Saturated icon
 
 /*********************
- * OBJECTS
+ * UI OBJECTS
  *********************/
 static lv_obj_t * scr_dashboard = NULL;
 
-// Data Labels
+// Header Elements
+static lv_obj_t * lbl_instance_name;
 static lv_obj_t * lbl_target_name;
-static lv_obj_t * lbl_progress_main;
-static lv_obj_t * lbl_progress_sub; // Time remaining
-static lv_obj_t * lbl_filter;
-static lv_obj_t * bar_progress;
-static lv_obj_t * lbl_rms_total;
-static lv_obj_t * lbl_rms_detail;   // RA / DEC
-static lv_obj_t * lbl_cam_temp;
-static lv_obj_t * lbl_cam_cooler;
-static lv_obj_t * lbl_moon_illum;
-static lv_obj_t * lbl_focuser_pos;
-static lv_obj_t * lbl_status_pill;
+static lv_obj_t * lbl_filter_value;
+
+// Exposure Arc/Circle
+static lv_obj_t * arc_exposure;
+static lv_obj_t * lbl_exposure_current;
+static lv_obj_t * lbl_exposure_total;
+static lv_obj_t * lbl_loop_count;
+
+// Data Display Labels
+static lv_obj_t * lbl_rms_value;
+static lv_obj_t * lbl_hfr_value;
+static lv_obj_t * lbl_stars_value;
+static lv_obj_t * lbl_saturated_value;
 
 /*********************
  * STYLES
  *********************/
-static lv_style_t style_card;
-static lv_style_t style_label_sm;
-static lv_style_t style_label_xl;
-static lv_style_t style_label_xxl;
+static lv_style_t style_bento_box;
+static lv_style_t style_label_small;   // Uppercase labels
+static lv_style_t style_value_large;   // Large data values
+static lv_style_t style_header_gradient;
 
+/**
+ * @brief Initialize all styles for the Bento Dashboard
+ */
 static void init_styles(void) {
-    lv_style_init(&style_card);
-    lv_style_set_bg_color(&style_card, COLOR_CARD);
-    lv_style_set_bg_opa(&style_card, LV_OPA_90); // Slight transparency
-    lv_style_set_radius(&style_card, 30);        // Large rounded corners
-    lv_style_set_border_width(&style_card, 1);
-    lv_style_set_border_color(&style_card, lv_color_hex(0x27272a)); // Zinc 800
-    lv_style_set_pad_all(&style_card, 24);
+    // Bento Box Style
+    lv_style_init(&style_bento_box);
+    lv_style_set_bg_color(&style_bento_box, COLOR_BENTO_BG);
+    lv_style_set_bg_opa(&style_bento_box, LV_OPA_COVER);
+    lv_style_set_radius(&style_bento_box, BENTO_RADIUS);
+    lv_style_set_border_width(&style_bento_box, 1);
+    lv_style_set_border_color(&style_bento_box, COLOR_BENTO_BORDER);
+    lv_style_set_border_opa(&style_bento_box, LV_OPA_COVER);
+    lv_style_set_pad_all(&style_bento_box, 20);
 
-    lv_style_init(&style_label_sm);
-    lv_style_set_text_color(&style_label_sm, COLOR_TEXT_SUB);
-    lv_style_set_text_font(&style_label_sm, &lv_font_montserrat_14);
-    lv_style_set_text_letter_space(&style_label_sm, 2); // Tracking
+    // Small Label Style (Uppercase, Bold, Gray)
+    lv_style_init(&style_label_small);
+    lv_style_set_text_color(&style_label_small, COLOR_LABEL);
+    lv_style_set_text_font(&style_label_small, &lv_font_montserrat_12);
+    lv_style_set_text_letter_space(&style_label_small, 1);
 
-    lv_style_init(&style_label_xl);
-    lv_style_set_text_color(&style_label_xl, COLOR_TEXT_MAIN);
-    // Use largest available font, fallback to 14 scaled if needed, but assuming 28+ is avail
-#ifdef LV_FONT_MONTSERRAT_28
-    lv_style_set_text_font(&style_label_xl, &lv_font_montserrat_28);
-#else
-    lv_style_set_text_font(&style_label_xl, &lv_font_montserrat_14);
-#endif
-
-    lv_style_init(&style_label_xxl);
-    lv_style_set_text_color(&style_label_xxl, COLOR_TEXT_MAIN);
-    // Ideally use Montserrat 48 if enabled in menuconfig
+    // Large Value Style
+    lv_style_init(&style_value_large);
+    lv_style_set_text_color(&style_value_large, COLOR_TEXT);
 #ifdef LV_FONT_MONTSERRAT_48
-    lv_style_set_text_font(&style_label_xxl, &lv_font_montserrat_48);
+    lv_style_set_text_font(&style_value_large, &lv_font_montserrat_48);
+#elif defined(LV_FONT_MONTSERRAT_32)
+    lv_style_set_text_font(&style_value_large, &lv_font_montserrat_32);
 #elif defined(LV_FONT_MONTSERRAT_28)
-    lv_style_set_text_font(&style_label_xxl, &lv_font_montserrat_28);
-    // We will simulate larger text by scaling in the object if needed, 
-    // but styles don't support transform_zoom directly in v8 without flag
+    lv_style_set_text_font(&style_value_large, &lv_font_montserrat_28);
 #else
-    lv_style_set_text_font(&style_label_xxl, &lv_font_montserrat_14);
+    lv_style_set_text_font(&style_value_large, &lv_font_montserrat_20);
 #endif
+
+    // Header Gradient Style
+    lv_style_init(&style_header_gradient);
+    lv_style_set_bg_color(&style_header_gradient, COLOR_BLUE_DARK);
+    lv_style_set_bg_grad_color(&style_header_gradient, lv_color_hex(0x000000));
+    lv_style_set_bg_grad_dir(&style_header_gradient, LV_GRAD_DIR_VER);
+    lv_style_set_bg_opa(&style_header_gradient, LV_OPA_30);
+    lv_style_set_radius(&style_header_gradient, BENTO_RADIUS);
+    lv_style_set_border_width(&style_header_gradient, 1);
+    lv_style_set_border_color(&style_header_gradient, COLOR_BLUE_DARK);
+    lv_style_set_border_opa(&style_header_gradient, LV_OPA_30);
+    lv_style_set_pad_all(&style_header_gradient, 20);
 }
 
 /**
- * @brief Helper to create a standard "Pod" container
+ * @brief Helper to create a standard Bento Box container
  */
-static lv_obj_t* create_pod(lv_obj_t * parent) {
-    lv_obj_t * pod = lv_obj_create(parent);
-    lv_obj_remove_style_all(pod);
-    lv_obj_add_style(pod, &style_card, 0);
-    lv_obj_set_size(pod, LV_PCT(100), LV_PCT(100)); // Fill grid cell
-    return pod;
+static lv_obj_t* create_bento_box(lv_obj_t * parent) {
+    lv_obj_t * box = lv_obj_create(parent);
+    lv_obj_remove_style_all(box);
+    lv_obj_add_style(box, &style_bento_box, 0);
+    return box;
 }
 
 /**
- * @brief Helper to create a label with specific text and style
+ * @brief Helper to create a label with small uppercase style
  */
-static lv_obj_t* create_header_label(lv_obj_t * parent, const char * text) {
+static lv_obj_t* create_small_label(lv_obj_t * parent, const char * text) {
     lv_obj_t * label = lv_label_create(parent);
-    lv_obj_add_style(label, &style_label_sm, 0);
+    lv_obj_add_style(label, &style_label_small, 0);
     lv_label_set_text(label, text);
     return label;
 }
 
+/**
+ * @brief Helper to create a large value label
+ */
+static lv_obj_t* create_value_label(lv_obj_t * parent) {
+    lv_obj_t * label = lv_label_create(parent);
+    lv_obj_add_style(label, &style_value_large, 0);
+    lv_label_set_text(label, "--");
+    return label;
+}
+
+
+/**
+ * @brief Create the Bento NINA Dashboard
+ * Layout: 2 columns x 4 rows, 720x720px with 24px padding and 16px gaps
+ */
 void create_nina_dashboard(lv_obj_t * parent) {
     init_styles();
     scr_dashboard = parent;
     
-    // Main Container
+    // Main Container - 720x720 with outer padding
     lv_obj_t * main_cont = lv_obj_create(scr_dashboard);
     lv_obj_remove_style_all(main_cont);
-    lv_obj_set_size(main_cont, LV_PCT(100), LV_PCT(100));
-    lv_obj_set_style_bg_color(main_cont, COLOR_BG, 0);
+    lv_obj_set_size(main_cont, SCREEN_SIZE, SCREEN_SIZE);
+    lv_obj_set_style_bg_color(main_cont, COLOR_BG_MAIN, 0);
     lv_obj_set_style_bg_opa(main_cont, LV_OPA_COVER, 0);
-    lv_obj_set_style_pad_all(main_cont, DASH_PAD * 1.5, 0);
+    lv_obj_set_style_pad_all(main_cont, OUTER_PADDING, 0);
+    lv_obj_set_style_pad_gap(main_cont, GRID_GAP, 0);
 
-    // Setup Grid
+    // Setup Grid: 2 Equal Columns x 4 Equal Rows
     static lv_coord_t col_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
     static lv_coord_t row_dsc[] = {
-        LV_GRID_CONTENT, /* Header */
-        LV_GRID_FR(2),   /* Imaging Card (Tall) */
-        LV_GRID_FR(1.5), /* Info Cards Row 1 */
-        LV_GRID_FR(1.5), /* Info Cards Row 2 */
+        LV_GRID_FR(1),  // Row 0 - Header
+        LV_GRID_FR(1),  // Row 1
+        LV_GRID_FR(1),  // Row 2
+        LV_GRID_FR(1),  // Row 3
         LV_GRID_TEMPLATE_LAST
     };
     lv_obj_set_layout(main_cont, LV_LAYOUT_GRID);
     lv_obj_set_grid_dsc_array(main_cont, col_dsc, row_dsc);
 
-    /* ---------------- HEADER ---------------- */
-    lv_obj_t * header_cont = lv_obj_create(main_cont);
-    lv_obj_remove_style_all(header_cont);
-    lv_obj_set_grid_cell(header_cont, LV_GRID_ALIGN_STRETCH, 0, 2, LV_GRID_ALIGN_START, 0, 1);
-    lv_obj_set_height(header_cont, LV_SIZE_CONTENT);
-    lv_obj_set_flex_flow(header_cont, LV_FLEX_FLOW_COLUMN);
+    /* ═══════════════════════════════════════════════════════════
+     * HEADER (Row 0, Span 2 Columns)
+     * ═══════════════════════════════════════════════════════════ */
+    lv_obj_t * header = lv_obj_create(main_cont);
+    lv_obj_remove_style_all(header);
+    lv_obj_add_style(header, &style_header_gradient, 0);
+    lv_obj_set_grid_cell(header, LV_GRID_ALIGN_STRETCH, 0, 2, LV_GRID_ALIGN_STRETCH, 0, 1);
+    lv_obj_set_flex_flow(header, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(header, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+
+    // Left Side: Instance & Target
+    lv_obj_t * header_left = lv_obj_create(header);
+    lv_obj_remove_style_all(header_left);
+    lv_obj_set_size(header_left, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+    lv_obj_set_flex_flow(header_left, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(header_left, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
     
-    lv_obj_t * lbl_h_title = lv_label_create(header_cont);
-    lv_obj_add_style(lbl_h_title, &style_label_sm, 0);
-    lv_label_set_text(lbl_h_title, "ACTIVE TARGET");
-
-    lbl_target_name = lv_label_create(header_cont);
-    lv_obj_add_style(lbl_target_name, &style_label_xxl, 0);
-    lv_obj_set_style_text_color(lbl_target_name, COLOR_ACCENT, 0);
-    lv_label_set_text(lbl_target_name, "N/A"); // Default
-
-    /* ---------------- IMAGING POD (Span 2) ---------------- */
-    lv_obj_t * pod_imaging = create_pod(main_cont);
-    lv_obj_set_grid_cell(pod_imaging, LV_GRID_ALIGN_STRETCH, 0, 2, LV_GRID_ALIGN_STRETCH, 1, 1);
-    // Specific styling for imaging pod
-    lv_obj_set_style_bg_grad_color(pod_imaging, lv_color_hex(0x064e3b), 0); // Dark Emerald
-    lv_obj_set_style_bg_grad_dir(pod_imaging, LV_GRAD_DIR_VER, 0);
-    lv_obj_set_style_border_color(pod_imaging, lv_color_hex(0x065f46), 0);
-
-    // Pill Status Top Right
-    lbl_status_pill = lv_label_create(pod_imaging);
-    lv_obj_set_style_bg_color(lbl_status_pill, COLOR_ACCENT, 0);
-    lv_obj_set_style_bg_opa(lbl_status_pill, LV_OPA_20, 0);
-    lv_obj_set_style_pad_hor(lbl_status_pill, 12, 0);
-    lv_obj_set_style_pad_ver(lbl_status_pill, 4, 0);
-    lv_obj_set_style_radius(lbl_status_pill, 8, 0);
-    lv_obj_set_style_text_color(lbl_status_pill, COLOR_ACCENT, 0);
-    lv_obj_set_style_text_font(lbl_status_pill, &lv_font_montserrat_14, 0);
-    lv_obj_align(lbl_status_pill, LV_ALIGN_TOP_RIGHT, 0, 0);
-    lv_label_set_text(lbl_status_pill, "IDLE");
-
-    // Main Progress Center
-    lv_obj_t * cont_prog = lv_obj_create(pod_imaging);
-    lv_obj_remove_style_all(cont_prog);
-    lv_obj_set_size(cont_prog, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-    lv_obj_align(cont_prog, LV_ALIGN_LEFT_MID, 0, -10);
-    lv_obj_set_flex_flow(cont_prog, LV_FLEX_FLOW_COLUMN);
+    lbl_instance_name = create_small_label(header_left, "NINA - RIG 01");
+    lv_obj_set_style_text_color(lbl_instance_name, COLOR_BLUE, 0);
     
-    lv_obj_t * lbl_seq = create_header_label(cont_prog, "SEQUENCE PROGRESS");
-    lv_obj_set_style_text_color(lbl_seq, COLOR_ACCENT, 0);
+    lbl_target_name = lv_label_create(header_left);
+    lv_obj_add_style(lbl_target_name, &style_value_large, 0);
+    lv_obj_set_style_text_color(lbl_target_name, COLOR_TEXT, 0);
+    lv_label_set_text(lbl_target_name, "M42 ORION");
 
-    lbl_progress_main = lv_label_create(cont_prog);
-    lv_obj_add_style(lbl_progress_main, &style_label_xxl, 0);
-    // Fake larger font if needed by zooming
-    // lv_obj_set_style_transform_zoom(lbl_progress_main, 512, 0); // 2x zoom
-    lv_label_set_text(lbl_progress_main, "-- / --");
+    // Right Side: Filter
+    lv_obj_t * header_right = lv_obj_create(header);
+    lv_obj_remove_style_all(header_right);
+    lv_obj_set_size(header_right, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+    lv_obj_set_flex_flow(header_right, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(header_right, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_END);
     
-    lbl_progress_sub = lv_label_create(cont_prog);
-    lv_obj_add_style(lbl_progress_sub, &style_label_xl, 0);
-    lv_obj_set_style_text_color(lbl_progress_sub, COLOR_TEXT_SUB, 0);
-    lv_label_set_text(lbl_progress_sub, "--:-- Remaining");
-
-    // Filter Info Bottom Right
-    lbl_filter = lv_label_create(pod_imaging);
-    lv_obj_add_style(lbl_filter, &style_label_sm, 0);
-    lv_obj_align(lbl_filter, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
-    lv_label_set_text(lbl_filter, "No Filter");
-
-    // Progress Bar (Bottom Edge)
-    bar_progress = lv_obj_create(pod_imaging);
-    lv_obj_remove_style_all(bar_progress);
-    lv_obj_set_size(bar_progress, 0, 6); // Width set dynamically
-    lv_obj_set_style_bg_color(bar_progress, COLOR_ACCENT, 0);
-    lv_obj_set_style_bg_opa(bar_progress, LV_OPA_COVER, 0);
-    lv_obj_align(bar_progress, LV_ALIGN_BOTTOM_LEFT, -24, 24); // Account for pad
-
-    /* ---------------- GUIDING POD ---------------- */
-    lv_obj_t * pod_guide = create_pod(main_cont);
-    lv_obj_set_grid_cell(pod_guide, LV_GRID_ALIGN_STRETCH, 0, 1, LV_GRID_ALIGN_STRETCH, 2, 1);
+    create_small_label(header_right, "FILTER");
     
-    create_header_label(pod_guide, "PHD2 RMS");
+    lbl_filter_value = lv_label_create(header_right);
+    lv_obj_add_style(lbl_filter_value, &style_value_large, 0);
+    lv_obj_set_style_text_color(lbl_filter_value, COLOR_AMBER, 0);
+    lv_label_set_text(lbl_filter_value, "Ha 7nm");
+
+    /* ═══════════════════════════════════════════════════════════
+     * EXPOSURE DISPLAY (Col 0, Rows 1-2, Span 2 Rows)
+     * ═══════════════════════════════════════════════════════════ */
+    lv_obj_t * box_exposure = create_bento_box(main_cont);
+    lv_obj_set_grid_cell(box_exposure, LV_GRID_ALIGN_STRETCH, 0, 1, LV_GRID_ALIGN_STRETCH, 1, 2);
+    lv_obj_set_flex_flow(box_exposure, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(box_exposure, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+
+    create_small_label(box_exposure, "EXPOSURE");
+
+    // Arc/Circle Widget (~200x200px)
+    arc_exposure = lv_arc_create(box_exposure);
+    lv_obj_set_size(arc_exposure, 200, 200);
+    lv_arc_set_rotation(arc_exposure, 270);
+    lv_arc_set_bg_angles(arc_exposure, 0, 360);
+    lv_arc_set_value(arc_exposure, 0);
+    lv_obj_remove_style(arc_exposure, NULL, LV_PART_KNOB);
+    lv_obj_set_style_arc_color(arc_exposure, lv_color_hex(0x333333), LV_PART_MAIN);
+    lv_obj_set_style_arc_width(arc_exposure, 12, LV_PART_MAIN);
+    lv_obj_set_style_arc_color(arc_exposure, COLOR_PROGRESS, LV_PART_INDICATOR);
+    lv_obj_set_style_arc_width(arc_exposure, 12, LV_PART_INDICATOR);
     
-    lbl_rms_total = lv_label_create(pod_guide);
-    lv_obj_add_style(lbl_rms_total, &style_label_xl, 0); // Should be larger
-    lv_obj_set_style_text_color(lbl_rms_total, COLOR_GUIDE, 0);
-    lv_obj_align(lbl_rms_total, LV_ALIGN_CENTER, 0, -10);
-    lv_label_set_text(lbl_rms_total, "--.--\"");
+    // Center Text in Arc
+    lv_obj_t * arc_center = lv_obj_create(arc_exposure);
+    lv_obj_remove_style_all(arc_center);
+    lv_obj_set_size(arc_center, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+    lv_obj_center(arc_center);
+    lv_obj_set_flex_flow(arc_center, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(arc_center, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
-    lbl_rms_detail = lv_label_create(pod_guide);
-    lv_obj_add_style(lbl_rms_detail, &style_label_sm, 0);
-    lv_obj_align(lbl_rms_detail, LV_ALIGN_BOTTOM_MID, 0, 0);
-    lv_label_set_text(lbl_rms_detail, "RA: -- DEC: --");
-
-    /* ---------------- CAMERA POD ---------------- */
-    lv_obj_t * pod_cam = create_pod(main_cont);
-    lv_obj_set_grid_cell(pod_cam, LV_GRID_ALIGN_STRETCH, 1, 1, LV_GRID_ALIGN_STRETCH, 2, 1);
-
-    create_header_label(pod_cam, "SENSOR");
-
-    lbl_cam_temp = lv_label_create(pod_cam);
-    lv_obj_add_style(lbl_cam_temp, &style_label_xl, 0);
-    lv_obj_set_style_text_color(lbl_cam_temp, lv_color_hex(0x818cf8), 0); // Indigo
-    lv_obj_align(lbl_cam_temp, LV_ALIGN_CENTER, 0, -10);
-    lv_label_set_text(lbl_cam_temp, "-- C");
-
-    lbl_cam_cooler = lv_label_create(pod_cam);
-    lv_obj_add_style(lbl_cam_cooler, &style_label_sm, 0);
-    lv_obj_align(lbl_cam_cooler, LV_ALIGN_BOTTOM_MID, 0, 0);
-    lv_label_set_text(lbl_cam_cooler, "Pwr: --%");
-
-    /* ---------------- MOON POD ---------------- */
-    lv_obj_t * pod_moon = create_pod(main_cont);
-    lv_obj_set_grid_cell(pod_moon, LV_GRID_ALIGN_STRETCH, 0, 1, LV_GRID_ALIGN_STRETCH, 3, 1);
+    lbl_exposure_current = lv_label_create(arc_center);
+    lv_obj_add_style(lbl_exposure_current, &style_value_large, 0);
+    lv_label_set_text(lbl_exposure_current, "120");
     
-    create_header_label(pod_moon, "MOON ILLUM");
+    lv_obj_t * lbl_slash = create_small_label(arc_center, "/");
+    lv_obj_set_style_text_color(lbl_slash, COLOR_LABEL, 0);
+    
+    lbl_exposure_total = create_small_label(arc_center, "300");
+    lv_obj_set_style_text_color(lbl_exposure_total, COLOR_LABEL, 0);
 
-    lbl_moon_illum = lv_label_create(pod_moon);
-    lv_obj_add_style(lbl_moon_illum, &style_label_xl, 0);
-    lv_obj_align(lbl_moon_illum, LV_ALIGN_CENTER, 0, 0);
-    lv_label_set_text(lbl_moon_illum, "--%");
+    // Loop Count at Bottom
+    lbl_loop_count = create_small_label(box_exposure, "12 / 30");
 
-    /* ---------------- FOCUSER POD ---------------- */
-    lv_obj_t * pod_focus = create_pod(main_cont);
-    lv_obj_set_grid_cell(pod_focus, LV_GRID_ALIGN_STRETCH, 1, 1, LV_GRID_ALIGN_STRETCH, 3, 1);
+    /* ═══════════════════════════════════════════════════════════
+     * GUIDING RMS (Col 1, Row 1)
+     * ═══════════════════════════════════════════════════════════ */
+    lv_obj_t * box_rms = create_bento_box(main_cont);
+    lv_obj_set_grid_cell(box_rms, LV_GRID_ALIGN_STRETCH, 1, 1, LV_GRID_ALIGN_STRETCH, 1, 1);
+    lv_obj_set_flex_flow(box_rms, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(box_rms, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
-    create_header_label(pod_focus, "FOCUSER");
+    create_small_label(box_rms, "GUIDING RMS");
+    
+    lbl_rms_value = create_value_label(box_rms);
+    lv_obj_set_style_text_color(lbl_rms_value, COLOR_ROSE, 0);
+    lv_label_set_text(lbl_rms_value, "0.38\"");
 
-    lbl_focuser_pos = lv_label_create(pod_focus);
-    lv_obj_add_style(lbl_focuser_pos, &style_label_xl, 0);
-    lv_obj_set_style_text_color(lbl_focuser_pos, lv_color_hex(0xfb923c), 0); // Orange
-    lv_obj_align(lbl_focuser_pos, LV_ALIGN_CENTER, 0, 0);
-    lv_label_set_text(lbl_focuser_pos, "-----");
+    /* ═══════════════════════════════════════════════════════════
+     * HFR / SHARPNESS (Col 1, Row 2)
+     * ═══════════════════════════════════════════════════════════ */
+    lv_obj_t * box_hfr = create_bento_box(main_cont);
+    lv_obj_set_grid_cell(box_hfr, LV_GRID_ALIGN_STRETCH, 1, 1, LV_GRID_ALIGN_STRETCH, 2, 1);
+    lv_obj_set_flex_flow(box_hfr, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(box_hfr, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
+    create_small_label(box_hfr, "HFR");
+    
+    lbl_hfr_value = create_value_label(box_hfr);
+    lv_obj_set_style_text_color(lbl_hfr_value, COLOR_EMERALD, 0);
+    lv_label_set_text(lbl_hfr_value, "2.15");
+
+    /* ═══════════════════════════════════════════════════════════
+     * STAR COUNT (Col 0, Row 3)
+     * ═══════════════════════════════════════════════════════════ */
+    lv_obj_t * box_stars = create_bento_box(main_cont);
+    lv_obj_set_grid_cell(box_stars, LV_GRID_ALIGN_STRETCH, 0, 1, LV_GRID_ALIGN_STRETCH, 3, 1);
+    lv_obj_set_flex_flow(box_stars, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(box_stars, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+
+    // Label with Star Icon (Unicode star)
+    lv_obj_t * lbl_stars_header = create_small_label(box_stars, "STARS");
+    lv_obj_set_style_text_color(lbl_stars_header, COLOR_YELLOW, 0);
+    
+    lbl_stars_value = create_value_label(box_stars);
+    lv_label_set_text(lbl_stars_value, "2451");
+
+    /* ═══════════════════════════════════════════════════════════
+     * SATURATED PIXELS (Col 1, Row 3)
+     * ═══════════════════════════════════════════════════════════ */
+    lv_obj_t * box_saturated = create_bento_box(main_cont);
+    lv_obj_set_grid_cell(box_saturated, LV_GRID_ALIGN_STRETCH, 1, 1, LV_GRID_ALIGN_STRETCH, 3, 1);
+    lv_obj_set_flex_flow(box_saturated, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(box_saturated, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+
+    // Label with Lightning Icon (Unicode lightning bolt)
+    lv_obj_t * lbl_sat_header = create_small_label(box_saturated, "SATURATED PIXELS");
+    lv_obj_set_style_text_color(lbl_sat_header, COLOR_PURPLE, 0);
+    
+    lbl_saturated_value = create_value_label(box_saturated);
+    lv_label_set_text(lbl_saturated_value, "84");
 }
 
+
 /**
- * @brief Update the Dashboard with new data from NINA client
+ * @brief Update the Bento Dashboard with live data from NINA client
  */
 void update_nina_dashboard_ui(const nina_client_t *data) {
     if (!scr_dashboard || !data) return;
 
-    // 1. Target & Status
-    if (data->status[0] != '\0') {
-        lv_label_set_text(lbl_status_pill, data->status);
-        if (strcmp(data->status, "IMAGING") == 0) {
-            lv_obj_set_style_text_color(lbl_status_pill, COLOR_ACCENT, 0);
-        } else {
-            lv_obj_set_style_text_color(lbl_status_pill, COLOR_WARN, 0);
-        }
+    // 1. Header - Instance Name & Target Name
+    if (data->profile_name[0] != '\0') {
+        lv_label_set_text(lbl_instance_name, data->profile_name);
     }
-    
-    // We assume data has a target field (add to struct if missing, for now use status/placeholder)
-    // Note: nina_client_t struct definition might need expansion based on JSON
-    // Mapping available fields based on provided files:
-    
-    // 2. Camera
-    if (data->camera.temp > -273) // clear logic check
-        lv_label_set_text_fmt(lbl_cam_temp, "%.1f C", data->camera.temp);
-    
-    lv_label_set_text_fmt(lbl_cam_cooler, "Pwr: %.0f%%", data->camera.cooler_power);
 
-    // 3. Guider
-    lv_label_set_text_fmt(lbl_rms_total, "%.2f\"", data->guider.rms_total);
-    // Detail not in basic struct, assume placeholders or expand struct
-    // lv_label_set_text_fmt(lbl_rms_detail, "RA: %.2f DEC: %.2f", data->guider.rms_ra, data->guider.rms_dec);
+    if (data->target_name[0] != '\0') {
+        lv_label_set_text(lbl_target_name, data->target_name);
+    }
 
-    // 4. Focuser
-    lv_label_set_text_fmt(lbl_focuser_pos, "%d", data->focuser.position);
+    // 2. Filter
+    if (data->current_filter[0] != '\0') {
+        lv_label_set_text(lbl_filter_value, data->current_filter);
+    }
 
-    // 5. Imaging / Sequence (Assuming struct expansion for full layout)
-    // If these fields aren't in `nina_client_t`, you must add them or they won't update.
-    // Simulating mapping:
-    // lv_label_set_text(lbl_target_name, data->imaging.target_name);
-    // lv_label_set_text_fmt(lbl_progress_main, "%d / %d", data->imaging.current, data->imaging.total);
-    
-    // Update Progress Bar Width
-    // int pct = (data->imaging.current * 100) / data->imaging.total;
-    // lv_obj_set_width(bar_progress, LV_PCT(pct));
+    // 3. Exposure Progress (Current Exposure Time)
+    if (data->exposure_total > 0) {
+        // Arc displays: elapsed time / total time for CURRENT exposure
+        float elapsed = data->exposure_current;
+        float total = data->exposure_total;
+
+        // Convert seconds to MM:SS or HH:MM format for display
+        int elapsed_sec = (int)elapsed;
+        int total_sec = (int)total;
+
+        // Display as MM:SS if under 60 minutes, HH:MM otherwise
+        if (total_sec < 3600) {
+            lv_label_set_text_fmt(lbl_exposure_current, "%d:%02d",
+                elapsed_sec / 60, elapsed_sec % 60);
+            lv_label_set_text_fmt(lbl_exposure_total, "%d:%02d",
+                total_sec / 60, total_sec % 60);
+        } else {
+            lv_label_set_text_fmt(lbl_exposure_current, "%d:%02d",
+                elapsed_sec / 3600, (elapsed_sec % 3600) / 60);
+            lv_label_set_text_fmt(lbl_exposure_total, "%d:%02d",
+                total_sec / 3600, (total_sec % 3600) / 60);
+        }
+
+        // Update Arc progress (0-100)
+        int progress = (int)((elapsed * 100) / total);
+        if (progress > 100) progress = 100;
+        if (progress < 0) progress = 0;
+        lv_arc_set_value(arc_exposure, progress);
+    } else {
+        lv_label_set_text(lbl_exposure_current, "0:00");
+        lv_label_set_text(lbl_exposure_total, "0:00");
+        lv_arc_set_value(arc_exposure, 0);
+    }
+
+    // 4. Loop Count (Completed Exposures / Total Exposures for current filter)
+    if (data->exposure_iterations > 0) {
+        lv_label_set_text_fmt(lbl_loop_count, "%d / %d exposures",
+            data->exposure_count, data->exposure_iterations);
+    } else {
+         lv_label_set_text(lbl_loop_count, "-- / --");
+    }
+
+    // 5. Guiding RMS
+    if (data->guider.rms_total > 0) {
+        lv_label_set_text_fmt(lbl_rms_value, "%.2f\"", data->guider.rms_total);
+    } else {
+        lv_label_set_text(lbl_rms_value, "--");
+    }
+
+    // 6. HFR / Sharpness
+    if (data->hfr > 0) {
+        lv_label_set_text_fmt(lbl_hfr_value, "%.2f", data->hfr);
+    } else {
+        lv_label_set_text(lbl_hfr_value, "--");
+    }
+
+    // 7. Star Count
+    if (data->stars >= 0) {
+        lv_label_set_text_fmt(lbl_stars_value, "%d", data->stars);
+    } else {
+        lv_label_set_text(lbl_stars_value, "--");
+    }
+
+    // 8. Saturated Pixels
+    if (data->saturated_pixels >= 0) {
+        lv_label_set_text_fmt(lbl_saturated_value, "%d", data->saturated_pixels);
+    } else {
+        lv_label_set_text(lbl_saturated_value, "--");
+    }
 }

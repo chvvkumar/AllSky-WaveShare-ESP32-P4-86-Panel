@@ -19,6 +19,7 @@
 
 #include "app_config.h"
 #include "web_server.h"
+#include "esp_sntp.h"
 
 #define BOOT_BUTTON_GPIO GPIO_NUM_35
 
@@ -39,6 +40,13 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
         ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
+        
+        // Initialize SNTP for time synchronization
+        ESP_LOGI(TAG, "Initializing SNTP");
+        esp_sntp_setoperatingmode(SNTP_OPMODE_POLL);
+        esp_sntp_setservername(0, "pool.ntp.org");
+        esp_sntp_init();
+        
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
     }
 }
@@ -126,7 +134,29 @@ static void data_update_task(void *arg) {
 
     // Wait for WiFi
     xEventGroupWaitBits(s_wifi_event_group, WIFI_CONNECTED_BIT, pdFALSE, pdFALSE, portMAX_DELAY);
-    ESP_LOGI(TAG, "WiFi Connected, starting data polling");
+    ESP_LOGI(TAG, "WiFi Connected, waiting for time sync...");
+    
+    // Wait for time to be set (up to 30 seconds)
+    time_t now = 0;
+    int retry = 0;
+    const int max_retry = 30;
+    while (now < 1577836800 && ++retry < max_retry) {  // Jan 1, 2020
+        ESP_LOGI(TAG, "Waiting for system time to be set... (%d/%d)", retry, max_retry);
+        vTaskDelay(pdMS_TO_TICKS(1000));
+        time(&now);
+    }
+    
+    if (now < 1577836800) {
+        ESP_LOGW(TAG, "Time not set after %d seconds, continuing anyway", max_retry);
+    } else {
+        char strftime_buf[64];
+        struct tm timeinfo;
+        localtime_r(&now, &timeinfo);
+        strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
+        ESP_LOGI(TAG, "System time set: %s", strftime_buf);
+    }
+    
+    ESP_LOGI(TAG, "Starting data polling");
 
     app_config_t *cfg = app_config_get();
 

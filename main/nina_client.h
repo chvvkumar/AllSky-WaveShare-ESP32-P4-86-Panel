@@ -29,12 +29,12 @@ typedef struct {
     } moon;
     
     // Sequence info
-    int exposure_count;
-    int exposure_iterations;
-    float exposure_current;
-    float exposure_total;
-    char current_filter[32];
-    char time_remaining[32];
+    int exposure_count;         // Number of completed exposures for current filter (CompletedIterations)
+    int exposure_iterations;    // Total number of exposures planned for current filter (ExposureCount)
+    float exposure_current;     // Elapsed time in current exposure (seconds)
+    float exposure_total;       // Total duration of current exposure (seconds, from ExposureTime)
+    char current_filter[32];    // Current filter name (e.g., "Ha", "Sii", "L")
+    char time_remaining[32];    // Time remaining for entire sequence (HH:MM:SS format)
     bool is_dithering;
     
     // Image stats
