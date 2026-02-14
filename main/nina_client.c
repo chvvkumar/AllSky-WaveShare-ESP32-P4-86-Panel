@@ -373,8 +373,9 @@ static cJSON* find_running_smart_exposure(cJSON *container) {
 }
 
 /**
- * @brief Try to get exposure count/iterations from sequence (OPTIONAL - may fail)
+ * @brief Try to get exposure count/iterations/time from sequence (OPTIONAL - may fail)
  * This is the only part that depends on sequence structure
+ * Provides: ExposureTime, CompletedIterations, Iterations from RUNNING Smart Exposure
  */
 static void fetch_sequence_counts_optional(const char *base_url, nina_client_t *data) {
     char url[256];
@@ -416,6 +417,13 @@ static void fetch_sequence_counts_optional(const char *base_url, nina_client_t *
                     cJSON *iterations = cJSON_GetObjectItem(running_exp, "Iterations");
                     if (iterations && cJSON_IsNumber(iterations)) {
                         data->exposure_iterations = iterations->valueint;
+                    }
+
+                    // Get CURRENT exposure time from running exposure (overrides image history)
+                    cJSON *exp_time = cJSON_GetObjectItem(running_exp, "ExposureTime");
+                    if (exp_time && cJSON_IsNumber(exp_time)) {
+                        data->exposure_total = (float)exp_time->valuedouble;
+                        ESP_LOGI(TAG, "ExposureTime (from running sequence): %.1fs", data->exposure_total);
                     }
 
                     ESP_LOGI(TAG, "Exposure count: %d/%d", data->exposure_count, data->exposure_iterations);

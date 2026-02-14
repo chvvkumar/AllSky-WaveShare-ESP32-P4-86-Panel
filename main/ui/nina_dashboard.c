@@ -240,16 +240,16 @@ void create_nina_dashboard(lv_obj_t * parent) {
 
     lbl_exposure_current = lv_label_create(arc_center);
     lv_obj_add_style(lbl_exposure_current, &style_value_large, 0);
-    lv_label_set_text(lbl_exposure_current, "120");
-    
-    lv_obj_t * lbl_slash = create_small_label(arc_center, "/");
-    lv_obj_set_style_text_color(lbl_slash, COLOR_LABEL, 0);
-    
-    lbl_exposure_total = create_small_label(arc_center, "300");
+    lv_label_set_text(lbl_exposure_current, "420s");
+
+    lbl_exposure_total = create_small_label(arc_center, "7:00");
     lv_obj_set_style_text_color(lbl_exposure_total, COLOR_LABEL, 0);
 
-    // Loop Count at Bottom
-    lbl_loop_count = create_small_label(box_exposure, "12 / 30");
+    // Loop Count at Bottom (larger font)
+    lbl_loop_count = lv_label_create(box_exposure);
+    lv_obj_set_style_text_color(lbl_loop_count, COLOR_LABEL, 0);
+    lv_obj_set_style_text_font(lbl_loop_count, &lv_font_montserrat_20, 0);
+    lv_label_set_text(lbl_loop_count, "12 / 30");
 
     /* ═══════════════════════════════════════════════════════════
      * GUIDING RMS (Col 1, Row 1)
@@ -333,25 +333,28 @@ void update_nina_dashboard_ui(const nina_client_t *data) {
 
     // 3. Exposure Progress (Current Exposure Time)
     if (data->exposure_total > 0) {
-        // Arc displays: elapsed time / total time for CURRENT exposure
         float elapsed = data->exposure_current;
         float total = data->exposure_total;
-
-        // Convert seconds to MM:SS or HH:MM format for display
-        int elapsed_sec = (int)elapsed;
         int total_sec = (int)total;
 
-        // Display as MM:SS if under 60 minutes, HH:MM otherwise
-        if (total_sec < 3600) {
-            lv_label_set_text_fmt(lbl_exposure_current, "%d:%02d",
-                elapsed_sec / 60, elapsed_sec % 60);
-            lv_label_set_text_fmt(lbl_exposure_total, "%d:%02d",
-                total_sec / 60, total_sec % 60);
+        // Center label: Show total exposure length in seconds
+        if (total_sec < 60) {
+            lv_label_set_text_fmt(lbl_exposure_current, "%ds", total_sec);
+        } else if (total_sec < 3600) {
+            lv_label_set_text_fmt(lbl_exposure_current, "%d:%02d", total_sec / 60, total_sec % 60);
         } else {
-            lv_label_set_text_fmt(lbl_exposure_current, "%d:%02d",
+            lv_label_set_text_fmt(lbl_exposure_current, "%d:%02d:%02d",
+                total_sec / 3600, (total_sec % 3600) / 60, total_sec % 60);
+        }
+
+        // Secondary label: Show elapsed time
+        int elapsed_sec = (int)elapsed;
+        if (total_sec < 3600) {
+            lv_label_set_text_fmt(lbl_exposure_total, "%d:%02d elapsed",
+                elapsed_sec / 60, elapsed_sec % 60);
+        } else {
+            lv_label_set_text_fmt(lbl_exposure_total, "%d:%02d elapsed",
                 elapsed_sec / 3600, (elapsed_sec % 3600) / 60);
-            lv_label_set_text_fmt(lbl_exposure_total, "%d:%02d",
-                total_sec / 3600, (total_sec % 3600) / 60);
         }
 
         // Update Arc progress (0-100)
@@ -360,14 +363,14 @@ void update_nina_dashboard_ui(const nina_client_t *data) {
         if (progress < 0) progress = 0;
         lv_arc_set_value(arc_exposure, progress);
     } else {
-        lv_label_set_text(lbl_exposure_current, "0:00");
-        lv_label_set_text(lbl_exposure_total, "0:00");
+        lv_label_set_text(lbl_exposure_current, "--");
+        lv_label_set_text(lbl_exposure_total, "");
         lv_arc_set_value(arc_exposure, 0);
     }
 
     // 4. Loop Count (Completed Exposures / Total Exposures for current filter)
     if (data->exposure_iterations > 0) {
-        lv_label_set_text_fmt(lbl_loop_count, "%d / %d exposures",
+        lv_label_set_text_fmt(lbl_loop_count, "%d / %d",
             data->exposure_count, data->exposure_iterations);
     } else {
          lv_label_set_text(lbl_loop_count, "-- / --");
