@@ -240,7 +240,7 @@ void create_nina_dashboard(lv_obj_t * parent) {
     lbl_exposure_total = create_small_label(arc_center, "Filter");
     lv_obj_set_style_text_color(lbl_exposure_total, COLOR_AMBER, 0);
     lv_obj_set_style_text_font(lbl_exposure_total, &lv_font_montserrat_28, 0);
-    lv_obj_set_style_pad_top(lbl_exposure_total, 10, 0);
+    lv_obj_set_style_pad_top(lbl_exposure_total, 14, 0);
 
     // Loop Count at Bottom (larger font)
     lbl_loop_count = lv_label_create(box_exposure);
