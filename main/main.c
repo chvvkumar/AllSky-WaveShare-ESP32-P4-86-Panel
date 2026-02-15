@@ -131,11 +131,13 @@ static void input_task(void *arg) {
 
 static void data_update_task(void *arg) {
     nina_client_t d1 = {0};
+    nina_poll_state_t poll_state;
+    nina_poll_state_init(&poll_state);
 
     // Wait for WiFi
     xEventGroupWaitBits(s_wifi_event_group, WIFI_CONNECTED_BIT, pdFALSE, pdFALSE, portMAX_DELAY);
     ESP_LOGI(TAG, "WiFi Connected, waiting for time sync...");
-    
+
     // Wait for time to be set (up to 30 seconds)
     time_t now = 0;
     int retry = 0;
@@ -145,7 +147,7 @@ static void data_update_task(void *arg) {
         vTaskDelay(pdMS_TO_TICKS(1000));
         time(&now);
     }
-    
+
     if (now < 1577836800) {
         ESP_LOGW(TAG, "Time not set after %d seconds, continuing anyway", max_retry);
     } else {
@@ -155,15 +157,14 @@ static void data_update_task(void *arg) {
         strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
         ESP_LOGI(TAG, "System time set: %s", strftime_buf);
     }
-    
-    ESP_LOGI(TAG, "Starting data polling");
+
+    ESP_LOGI(TAG, "Starting data polling (tiered)");
 
     app_config_t *cfg = app_config_get();
 
     while (1) {
         if (strlen(cfg->api_url_1) > 0) {
-            ESP_LOGI(TAG, "Polling NINA instance 1...");
-            nina_client_get_data(cfg->api_url_1, &d1);
+            nina_client_poll(cfg->api_url_1, &d1, &poll_state);
             ESP_LOGI(TAG, "Instance 1: connected=%d, status=%s, target=%s", d1.connected, d1.status, d1.target_name);
         }
 

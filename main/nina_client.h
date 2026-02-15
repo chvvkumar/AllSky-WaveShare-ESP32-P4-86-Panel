@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stdint.h>
 
 #define MAX_FILTERS 10
 
@@ -61,7 +62,31 @@ typedef struct {
     int filter_count;
 } nina_client_t;
 
-// Fetch data from a NINA instance
-// base_url: e.g., "http://astromele2.lan:1888/v2/api/"
-// data: pointer to nina_client_t struct to populate
+// Polling intervals (ms)
+#define NINA_POLL_SLOW_MS     30000   // Focuser, mount
+#define NINA_POLL_SEQUENCE_MS 10000   // Sequence counts (expensive JSON)
+
+// Polling state - tracks timers and cached static data between polls
+typedef struct {
+    // Timestamps (ms from esp_timer_get_time)
+    int64_t last_slow_poll_ms;
+    int64_t last_sequence_poll_ms;
+
+    // Static data fetched once
+    bool static_fetched;
+
+    // Cached static data (survives across polls)
+    char cached_profile[64];
+    char cached_telescope[64];
+    nina_filter_t cached_filters[MAX_FILTERS];
+    int cached_filter_count;
+} nina_poll_state_t;
+
+// Initialize polling state (call once before polling loop)
+void nina_poll_state_init(nina_poll_state_t *state);
+
+// Tiered polling - fetches data at different rates based on change frequency
+void nina_client_poll(const char *base_url, nina_client_t *data, nina_poll_state_t *state);
+
+// Legacy API - fetches all data every call (kept for compatibility)
 void nina_client_get_data(const char *base_url, nina_client_t *data);

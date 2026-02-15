@@ -11,6 +11,7 @@
 #include "nina_client.h"
 #include "esp_http_client.h"
 #include "esp_log.h"
+#include "esp_timer.h"
 #include "cJSON.h"
 #include <string.h>
 #include <time.h>
@@ -192,7 +193,7 @@ static void fetch_camera_info_robust(const char *base_url, nina_client_t *data) 
  * @brief Fetch filter wheel info - ALWAYS WORKS
  * Provides: Current filter name from hardware AND available filters list
  */
-static void fetch_filter_robust(const char *base_url, nina_client_t *data) {
+static void fetch_filter_robust_ex(const char *base_url, nina_client_t *data, bool fetch_available) {
     char url[256];
     snprintf(url, sizeof(url), "%sequipment/filterwheel/info", base_url);
 
@@ -211,8 +212,8 @@ static void fetch_filter_robust(const char *base_url, nina_client_t *data) {
             }
         }
 
-        // Get available filters
-        cJSON *availableFilters = cJSON_GetObjectItem(response, "AvailableFilters");
+        // Get available filters (only on first call)
+        cJSON *availableFilters = fetch_available ? cJSON_GetObjectItem(response, "AvailableFilters") : NULL;
         if (availableFilters && cJSON_IsArray(availableFilters)) {
             int count = cJSON_GetArraySize(availableFilters);
             if (count > MAX_FILTERS) count = MAX_FILTERS;
@@ -570,7 +571,7 @@ void nina_client_get_data(const char *base_url, nina_client_t *data) {
     fetch_camera_info_robust(base_url, data);
 
     if (data->connected) {
-        fetch_filter_robust(base_url, data);           // Hardware state
+        fetch_filter_robust_ex(base_url, data, true);   // Hardware state + available filters
         fetch_image_history_robust(base_url, data);    // Target, exposure time, HFR, stars
         fetch_profile_robust(base_url, data);          // Profile name
         fetch_guider_robust(base_url, data);           // Guiding RMS
@@ -606,5 +607,121 @@ void nina_client_get_data(const char *base_url, nina_client_t *data) {
     ESP_LOGI(TAG, "Target: %s, Filter: %s", data->target_name, data->current_filter);
     ESP_LOGI(TAG, "Exposure: %.1fs (%.1f/%.1f)", data->exposure_total, data->exposure_current, data->exposure_total);
     ESP_LOGI(TAG, "Camera: %.1fC (%.0f%% power)", data->camera.temp, data->camera.cooler_power);
+    ESP_LOGI(TAG, "Guiding: %.2f\", HFR: %.2f, Stars: %d", data->guider.rms_total, data->hfr, data->stars);
+}
+
+// =============================================================================
+// Tiered Polling API
+// =============================================================================
+
+void nina_poll_state_init(nina_poll_state_t *state) {
+    memset(state, 0, sizeof(nina_poll_state_t));
+}
+
+void nina_client_poll(const char *base_url, nina_client_t *data, nina_poll_state_t *state) {
+    int64_t now_ms = esp_timer_get_time() / 1000;
+
+    // Reset only volatile fields (preserve persistent data between polls)
+    data->connected = false;
+    data->exposure_current = 0;
+    strcpy(data->status, "IDLE");
+    strcpy(data->time_remaining, "--");
+    data->saturated_pixels = -1;
+
+    // On very first call, set defaults for persistent fields
+    if (!state->static_fetched) {
+        strcpy(data->target_name, "No Target");
+        strcpy(data->meridian_flip, "--");
+        strcpy(data->profile_name, "NINA");
+        strcpy(data->current_filter, "--");
+        data->filter_count = 0;
+    }
+
+    ESP_LOGI(TAG, "=== Polling NINA data (tiered) ===");
+
+    // --- ALWAYS: Camera heartbeat ---
+    fetch_camera_info_robust(base_url, data);
+
+    if (!data->connected) {
+        // Reset static cache on disconnect so we re-fetch on reconnect
+        state->static_fetched = false;
+        return;
+    }
+
+    // --- ONCE: Static data (profile, available filters, initial image history) ---
+    if (!state->static_fetched) {
+        fetch_profile_robust(base_url, data);
+        fetch_filter_robust_ex(base_url, data, true);  // Full: selected + available filters
+        fetch_image_history_robust(base_url, data);
+
+        // Cache static data
+        snprintf(state->cached_profile, sizeof(state->cached_profile), "%s", data->profile_name);
+        snprintf(state->cached_telescope, sizeof(state->cached_telescope), "%s", data->telescope_name);
+        memcpy(state->cached_filters, data->filters, sizeof(state->cached_filters));
+        state->cached_filter_count = data->filter_count;
+
+        state->static_fetched = true;
+        state->last_slow_poll_ms = now_ms;
+        state->last_sequence_poll_ms = now_ms;
+    } else {
+        // Restore cached static data
+        snprintf(data->profile_name, sizeof(data->profile_name), "%s", state->cached_profile);
+        if (state->cached_telescope[0] != '\0') {
+            snprintf(data->telescope_name, sizeof(data->telescope_name), "%s", state->cached_telescope);
+        }
+        memcpy(data->filters, state->cached_filters, sizeof(data->filters));
+        data->filter_count = state->cached_filter_count;
+    }
+
+    // --- FAST: Image history (HFR, stars, target) - every call ---
+    fetch_image_history_robust(base_url, data);
+    // Update cached telescope if image history provided a new one
+    if (data->telescope_name[0] != '\0') {
+        snprintf(state->cached_telescope, sizeof(state->cached_telescope), "%s", data->telescope_name);
+    }
+
+    // --- FAST: Guider RMS - every call ---
+    fetch_guider_robust(base_url, data);
+
+    // --- FAST: Filter current position - every call (skip available filters) ---
+    fetch_filter_robust_ex(base_url, data, false);
+
+    // --- SLOW: Focuser + Mount (every 30s) ---
+    if (now_ms - state->last_slow_poll_ms >= NINA_POLL_SLOW_MS) {
+        fetch_focuser_robust(base_url, data);
+        fetch_mount_robust(base_url, data);
+        state->last_slow_poll_ms = now_ms;
+    }
+
+    // --- SLOW: Sequence counts (every 10s) ---
+    if (now_ms - state->last_sequence_poll_ms >= NINA_POLL_SEQUENCE_MS) {
+        fetch_sequence_counts_optional(base_url, data);
+        state->last_sequence_poll_ms = now_ms;
+    }
+
+    // Fix exposure current/total calculation (same as original)
+    if (data->exposure_current < 0) {
+        float remaining = -data->exposure_current;
+        if (data->exposure_total > 0) {
+            data->exposure_current = data->exposure_total - remaining;
+        } else {
+            data->exposure_current = 0;
+        }
+
+        int rem_sec = (int)remaining;
+        if (rem_sec < 0) rem_sec = 0;
+        snprintf(data->time_remaining, sizeof(data->time_remaining), "%02d:%02d", rem_sec / 60, rem_sec % 60);
+    }
+
+    // Clamp
+    if (data->exposure_current < 0) data->exposure_current = 0;
+    if (data->exposure_total > 0 && data->exposure_current > data->exposure_total) {
+        data->exposure_current = data->exposure_total;
+    }
+
+    ESP_LOGI(TAG, "=== Poll Summary ===");
+    ESP_LOGI(TAG, "Connected: %d, Profile: %s", data->connected, data->profile_name);
+    ESP_LOGI(TAG, "Target: %s, Filter: %s", data->target_name, data->current_filter);
+    ESP_LOGI(TAG, "Exposure: %.1fs (%.1f/%.1f)", data->exposure_total, data->exposure_current, data->exposure_total);
     ESP_LOGI(TAG, "Guiding: %.2f\", HFR: %.2f, Stars: %d", data->guider.rms_total, data->hfr, data->stars);
 }

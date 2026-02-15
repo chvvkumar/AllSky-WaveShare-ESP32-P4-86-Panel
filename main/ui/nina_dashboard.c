@@ -405,7 +405,7 @@ void update_nina_dashboard_ui(const nina_client_t *data) {
         lv_anim_init(&a);
         lv_anim_set_var(&a, arc_exposure);
         lv_anim_set_values(&a, lv_arc_get_value(arc_exposure), progress);
-        lv_anim_set_time(&a, 1000);
+        lv_anim_set_time(&a, 250);
         lv_anim_set_exec_cb(&a, (lv_anim_exec_xcb_t)lv_arc_set_value);
         lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
         lv_anim_start(&a);
